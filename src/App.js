@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Card from "./components/Card";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="h-[90vh] w-96 bg-[#efefef] text-gray-800 p-4 relative rounded-lg">
+      {/* header part */}
+      <header className="mb-4 text-center">
+        <div className="flex items-center justify-evenly mb-2">
+          <h1 className="text-[22px] font-bold ">Contacts</h1>
+          <i className="fa-solid fa-plus font-extrabold bg-gray-300 rounded-[50%] p-2 cursor-pointer"></i>
+        </div>
+
+        <input className="px-2 py-1 text-sm font-medium bg-transparent border-white border-[2px] rounded-[20px]" type="text" placeholder="Search the Contact" />
       </header>
+
+      {/* main body to render contacts */}
+      <main>
+        <Card />
+      </main>
     </div>
   );
-}
+};
 
 export default App;
