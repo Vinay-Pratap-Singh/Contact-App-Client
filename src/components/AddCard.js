@@ -22,24 +22,26 @@ const AddCard = (props) => {
   };
 
   return (
-    <form className="absolute divCenter border-2 border-white p-2 w-[70%] bg-gray-300">
+    <form type="POST" onSubmit={addContact} className="absolute divCenter border-2 border-white w-[70%] bg-gray-300 rounded-lg">
       <input
-        className="bg-transparent "
+        className="bg-transparent text-sm m-2"
         type="text"
         placeholder="Enter Contact Name"
+        required
         value={name}
         onChange={(event) => setName(event.target.value)}
       />
       <input
-        className="bg-transparent"
+        className="bg-transparent text-sm m-2"
         type="number"
         placeholder="Enter Mobile Number"
         minLength={10}
         maxLength={10}
+        required
         value={number}
         onChange={(event) => setNumber(event.target.value)}
       />
-      <button onClick={addContact}>Add Contact</button>
+      <button className="text-lg font-bold w-full py-1 bg-gray-700 text-white rounded-br-lg rounded-bl-lg mt-2">Add Contact</button>
     </form>
   );
 };

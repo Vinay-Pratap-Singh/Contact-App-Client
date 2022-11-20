@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 const DisplayCard = (props) => {
+  // state for changing the user name and number
+  const [name, setName] = useState(props.name);
+  const [number, setNumber] = useState(props.number);
+  const existingContact = props.number;
+
+  // array of some color for the name logo
+  const colors=["red","purple","green","violet","darkcyan","darkmagenta","darkslateblue","darkturquoise"]
+
+  // function for changing the contact details
+  const changeContact = async () => {
+    const response = await axios("/updatecontact", {
+      existingContact,
+      name,
+      phone: number,
+    });
+    alert(response.data);
+  };
+
   const showCard = (event) => {
     const parentElement = event.target.parentElement.parentElement;
     const element = parentElement.nextElementSibling;
@@ -18,24 +36,24 @@ const DisplayCard = (props) => {
     const response = await axios.post("deletecontact", { phone: number });
     alert(response.data);
     props.setNewchange(!props.newchange);
-  }
+  };
 
   return (
     <div className="mb-4">
       {/* card details */}
       <div className="flex items-center gap-4">
         {/* user logo */}
-        <p className="bg-gray-500 w-8 h-8 rounded-[50%] flex items-center justify-center font-bold text-white">
+        <p style={{backgroundColor:colors[Math.floor(Math.random()*colors.length)]}} className="w-8 h-8 rounded-[50%] flex items-center justify-center font-medium text-white">
           {props.name[0].toUpperCase()}
         </p>
         <div>
           <h3
             onClick={showCard}
-            className="font-semibold text-lg cursor-pointer"
+            className="font-semibold text-base cursor-pointer"
           >
             {props.name}
           </h3>
-          <p className="text-sm text-gray-500">{props.number}</p>
+          <p className="text-xs text-gray-600">{props.number}</p>
         </div>
       </div>
 
@@ -49,8 +67,21 @@ const DisplayCard = (props) => {
           x
         </p>
 
-        <h3 className="font-semibold text-lg">{props.name}</h3>
-        <p className="text-sm text-gray-500 mb-4">{props.number}</p>
+        <input
+          type="text"
+          placeholder="Enter new name"
+          value={name}
+          disabled
+          onChange={(event) => setName(event.target.value)}
+          className="font-semibold text-lg bg-transparent"
+        />
+        <input
+          type="number"
+          placeholder="Enter new number"
+          value={number}
+          onChange={(event) => setNumber(event.target.value)}
+          className="text-sm text-gray-500 mb-4 bg-transparent"
+        />
 
         {/* call, message and video call icons */}
         <div className="flex items-center justify-around mb-6">
@@ -61,10 +92,13 @@ const DisplayCard = (props) => {
 
         {/* buttons for edit and delete */}
         <div className="flex items-center justify-evenly">
-          <button className="text-base font-bold border-2 border-white px-4">
+          <button className="text-base font-bold border-2 border-white px-4" onClick={changeContact}>
             Edit
           </button>
-          <button className="text-base font-bold border-2 border-white px-4" onClick={deleteContact}>
+          <button
+            className="text-base font-bold border-2 border-white px-4"
+            onClick={deleteContact}
+          >
             Delete
           </button>
         </div>
