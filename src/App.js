@@ -39,8 +39,8 @@ const App = () => {
   useEffect(() => {
     const contactDetails = async () => {
       const response = await axios.post("/displaycontact");
-      setData(response.data.data);
-      setOrgData(response.data.data);
+      setData(response.data);
+      setOrgData(response.data);
     };
     contactDetails();
   }, [newchange]);

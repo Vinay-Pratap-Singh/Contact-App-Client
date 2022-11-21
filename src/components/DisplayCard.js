@@ -5,36 +5,63 @@ const DisplayCard = (props) => {
   // state for changing the user name and number
   const [name, setName] = useState(props.element.name);
   const [number, setNumber] = useState(props.element.phone);
-  const existingContact = props.number;
+
+  // checking that the input box can be edited or not
+  const [editable, setEditable] = useState(false);
 
   // array of some color for the name logo
-  const colors=["red","purple","green","violet","darkcyan","darkmagenta","darkslateblue","darkturquoise"]
+  const colors = [
+    "red",
+    "purple",
+    "green",
+    "violet",
+    "darkcyan",
+    "darkmagenta",
+    "darkslateblue",
+    "darkturquoise",
+  ];
 
-  // function for changing the contact details
-  const changeContact = async () => {
-    const response = await axios("/updatecontact", {
-      existingContact,
-      name,
-      phone: number,
-    });
-    alert(response.data);
-  };
-
+  // function to display the pop up card
   const showCard = (event) => {
     const parentElement = event.target.parentElement.parentElement;
     const element = parentElement.nextElementSibling;
     element.classList.toggle("hidden");
   };
 
+  // function to  close the pop up card
   const closeCard = (event) => {
     const element = event.target.parentElement;
     element.classList.toggle("hidden");
   };
 
+  // function to delete a contact
   const deleteContact = async () => {
-    const response = await axios.post("/deletecontact", { id:props.element._id });
+    const response = await axios.post("/deletecontact", {
+      id: props.element._id,
+    });
     alert(response.data.message);
     props.setNewchange(!props.newchange);
+  };
+
+  // function for updating the contact details
+  const changeContact = async (event) => {
+    const text = event.target.innerText;
+    if (text === "Edit") {
+      setEditable(true);
+      event.target.innerText = "Update";
+    }
+
+    else if (editable && text === "Update") {
+      const response = await axios.post("/updatecontact", {
+        id: props.element._id,
+        name,
+        phone: number,
+      });
+      setEditable(false);
+      event.target.innerText = "Edit";
+      alert(response.data.message);
+      props.setNewchange(!props.newchange);
+    }
   };
 
   // choosing the random color for contact icon
@@ -45,7 +72,10 @@ const DisplayCard = (props) => {
       {/* card details */}
       <div className="flex items-center gap-4">
         {/* user logo */}
-        <p style={{backgroundColor:color}} className="w-8 h-8 rounded-[50%] flex items-center justify-center font-medium text-white">
+        <p
+          style={{ backgroundColor: color }}
+          className="w-8 h-8 rounded-[50%] flex items-center justify-center font-medium text-white"
+        >
           {props.element.name[0].toUpperCase()}
         </p>
         <div>
@@ -73,15 +103,18 @@ const DisplayCard = (props) => {
           type="text"
           placeholder="Enter new name"
           value={name}
-          disabled
-          onChange={(event) => setName(event.target.value)}
+          onChange={(event) => {
+            if (editable) setName(event.target.value);
+          }}
           className="font-semibold text-lg bg-transparent"
         />
         <input
           type="number"
           placeholder="Enter new number"
           value={number}
-          onChange={(event) => setNumber(event.target.value)}
+          onChange={(event) => {
+            if (editable) setNumber(event.target.value);
+          }}
           className="text-sm text-gray-500 mb-4 bg-transparent"
         />
 
@@ -94,7 +127,10 @@ const DisplayCard = (props) => {
 
         {/* buttons for edit and delete */}
         <div className="flex items-center justify-evenly">
-          <button className="text-base font-bold border-2 border-white px-4" onClick={changeContact}>
+          <button
+            className="text-base font-bold border-2 border-white px-4"
+            onClick={changeContact}
+          >
             Edit
           </button>
           <button
