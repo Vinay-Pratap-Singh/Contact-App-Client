@@ -3,8 +3,8 @@ import axios from "axios";
 
 const DisplayCard = (props) => {
   // state for changing the user name and number
-  const [name, setName] = useState(props.name);
-  const [number, setNumber] = useState(props.number);
+  const [name, setName] = useState(props.element.name);
+  const [number, setNumber] = useState(props.element.phone);
   const existingContact = props.number;
 
   // array of some color for the name logo
@@ -32,28 +32,30 @@ const DisplayCard = (props) => {
   };
 
   const deleteContact = async () => {
-    const number = props.number;
-    const response = await axios.post("deletecontact", { phone: number });
-    alert(response.data);
+    const response = await axios.post("/deletecontact", { id:props.element._id });
+    alert(response.data.message);
     props.setNewchange(!props.newchange);
   };
+
+  // choosing the random color for contact icon
+  const color = colors[Math.floor(Math.random() * colors.length)];
 
   return (
     <div className="mb-4">
       {/* card details */}
       <div className="flex items-center gap-4">
         {/* user logo */}
-        <p style={{backgroundColor:colors[Math.floor(Math.random()*colors.length)]}} className="w-8 h-8 rounded-[50%] flex items-center justify-center font-medium text-white">
-          {props.name[0].toUpperCase()}
+        <p style={{backgroundColor:color}} className="w-8 h-8 rounded-[50%] flex items-center justify-center font-medium text-white">
+          {props.element.name[0].toUpperCase()}
         </p>
         <div>
           <h3
             onClick={showCard}
             className="font-semibold text-base cursor-pointer"
           >
-            {props.name}
+            {props.element.name}
           </h3>
-          <p className="text-xs text-gray-600">{props.number}</p>
+          <p className="text-xs text-gray-600">{props.element.phone}</p>
         </div>
       </div>
 
