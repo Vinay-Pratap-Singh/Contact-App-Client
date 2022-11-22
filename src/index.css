@@ -1,4 +1,26 @@
 @tailwind base;
+/* changing the scrollbar design */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary) var(--primary);
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #D1D5DB;
+  border-radius: 14px;
+  border: 1px solid rgb(184, 184, 184);
+}
+
 @tailwind components;
 @tailwind utilities;
 
@@ -16,11 +38,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #e3f0f4;
-}
-
-.hidden {
-  display: none;
+  background: #D1D5DB;
 }
 
 .divCenter {
@@ -42,15 +60,6 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-/* converting the name in sentence case */
-h3 {
-  text-transform: capitalize;
-}
-
-.myShadow {
-  box-shadow: 2px 2px 5px rgb(92, 92, 92), -2px -2px 5px rgb(92, 92, 92);
-}
-
 /* smooth transition for placholder */
 form div label {
   transition: all 0.3s ease-in;
@@ -62,7 +71,7 @@ form div input:valid ~ label {
   top: -10px;
   transition: 0.25s all;
   font-size: 12px;
-  background-color: #E3F0F4;
+  background-color: #E5E7EB;
   padding: 0 5px;
-  color: black;
+  color: rgb(66, 66, 66);
 }

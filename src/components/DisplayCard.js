@@ -22,16 +22,16 @@ const DisplayCard = (props) => {
   ];
 
   // function to display the pop up card
-  const showCard = (event) => {
-    const parentElement = event.target.parentElement.parentElement;
-    const element = parentElement.nextElementSibling;
-    element.classList.toggle("hidden");
-  };
-
-  // function to  close the pop up card
-  const closeCard = (event) => {
-    const element = event.target.parentElement;
-    element.classList.toggle("hidden");
+  const showCard = () => {
+    const element = document.getElementById("displayPopUp");
+    if (element.style.display === "none") {
+      element.style.display = "block";
+    } else {
+      element.style.display = "none";
+      const myBtn = document.getElementById("editDeleteBtn");
+      myBtn.innerText = "Edit";
+      setEditable(false);
+    }
   };
 
   // function to delete a contact
@@ -49,9 +49,7 @@ const DisplayCard = (props) => {
     if (text === "Edit") {
       setEditable(true);
       event.target.innerText = "Update";
-    }
-
-    else if (editable && text === "Update") {
+    } else if (editable && text === "Update") {
       const response = await axios.post("/updatecontact", {
         id: props.element._id,
         name,
@@ -68,66 +66,70 @@ const DisplayCard = (props) => {
   const color = colors[Math.floor(Math.random() * colors.length)];
 
   return (
-    <div className="mb-4">
+    <div className="mb-4 mx-2">
       {/* card details */}
-      <div className="flex items-center gap-4">
+      <div
+        onClick={showCard}
+        className="flex items-center gap-4 shadow-[inset_1px_1px_1px_gray,inset_-1px_-1px_1px_white] hover:shadow-[1px_1px_1px_gray,-1px_-1px_1px_white] px-2 py-1 transition duration-700 ease-in-out cursor-pointer group"
+      >
         {/* user logo */}
         <p
           style={{ backgroundColor: color }}
-          className="w-8 h-8 rounded-[50%] flex items-center justify-center font-medium text-white"
+          className="w-8 h-8 rounded-[50%] flex items-center justify-center font-normal text-white group-hover:shadow-[1px_1px_1px_gray,-1px_-1px_1px_white]"
         >
           {props.element.name[0].toUpperCase()}
         </p>
         <div>
-          <h3
-            onClick={showCard}
-            className="font-semibold text-base cursor-pointer"
-          >
+          <h3 className="font-semibold text-[15px] text-gray-700 cursor-pointer group-hover:text-gray-900 capitalize">
             {props.element.name}
           </h3>
-          <p className="text-xs text-gray-600">{props.element.phone}</p>
+          <p className="text-xs text-gray-500 group-hover:font-medium">
+            {props.element.phone}
+          </p>
         </div>
       </div>
 
       {/* pop up card */}
-      <div className="hidden absolute border-2 border-white p-2 w-[70%] divCenter bg-gray-300">
+      <div
+        id="displayPopUp"
+        className="hidden absolute divCenter shadow-[3px_3px_3px_gray,-3px_-3px_3px_white] w-[70%] bg-[#E5E7EB] rounded-lg p-2"
+      >
         {/* close button for card */}
         <p
-          onClick={closeCard}
-          className="bg-gray-300 w-fit rounded-[50%] px-3 py-1 cursor-pointer font-bold absolute right-4"
+          onClick={showCard}
+          className="font-semibold text-sm hover:scale-[1.1] rounded-[50%] px-[11px] py-1 cursor-pointer absolute right-3 top-[22px] text-cyan-500 shadow-[1px_1px_1px_gray,-1px_-1px_1px_white] transition-all"
         >
           x
         </p>
 
         <input
           type="text"
-          placeholder="Enter new name"
           value={name}
           onChange={(event) => {
             if (editable) setName(event.target.value);
           }}
-          className="font-semibold text-lg bg-transparent"
+          className="bg-transparent text-base text-gray-700 font-semibold py-1 px-2 w-full rounded-md shadow-[1px_1px_1px_gray,-1px_-1px_1px_white] mt-3 capitalize"
         />
         <input
           type="number"
-          placeholder="Enter new number"
           value={number}
           onChange={(event) => {
             if (editable) setNumber(event.target.value);
           }}
-          className="text-sm text-gray-500 mb-4 bg-transparent"
+          className="bg-transparent text-base text-gray-700 font-semibold py-1 px-2 w-full rounded-md shadow-[1px_1px_1px_gray,-1px_-1px_1px_white] mt-3"
         />
 
         {/* call, message and video call icons */}
-        <div className="flex items-center justify-around mb-6">
-          <i className="fa-solid fa-phone bg-gray-400 p-2 rounded-[50%] cursor-pointer"></i>
-          <i className="fa-solid fa-message bg-gray-400 p-2 rounded-[50%] cursor-pointer"></i>
-          <i className="fa-solid fa-video bg-gray-400 p-2 rounded-[50%] cursor-pointer"></i>
+        <div className="flex items-center justify-around my-4">
+          <i className="fa-solid fa-phone p-2 rounded-[50%] shadow-[2px_2px_2px_gray,-2px_-2px_2px_white] text-blue-800 font-bold cursor-pointer hover:scale-[1.1] transition-all"></i>
+          <i className="fa-solid fa-message p-2 rounded-[50%] shadow-[2px_2px_2px_gray,-2px_-2px_2px_white] text-cyan-600 font-bold cursor-pointer hover:scale-[1.1] transition-all"></i>
+          <i className="fa-solid fa-video p-2 rounded-[50%] shadow-[2px_2px_2px_gray,-2px_-2px_2px_white] text-pink-600 font-bold cursor-pointer hover:scale-[1.1] transition-all"></i>
         </div>
 
         {/* buttons for edit and delete */}
         <div className="flex items-center justify-evenly">
           <button
+            id="editDeleteBtn"
             className="text-base font-bold border-2 border-white px-4"
             onClick={changeContact}
           >

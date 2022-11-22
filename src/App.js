@@ -47,21 +47,21 @@ const App = () => {
 
 
   return (
-    <div className="myShadow h-[90vh] w-80 bg-white text-gray-800 p-4 relative rounded-lg">
+    <div className="h-[90vh] w-80 bg-[#E5E7EB] text-gray-500 p-4 relative rounded-xl shadow-[3px_3px_3px_gray,-3px_-3px_3px_white]">
       {/* header part */}
       <header className="mb-4 text-center">
         <div className="mb-2 relative">
-          <h1 className="text-[22px] font-bold ">Contact</h1>
+          <h1 className="text-[22px] font-bold text-gray-700">Contact</h1>
           <p
             onClick={toggleShowform}
-            className="font-semibold text-lg hover:text-xl border border-gray-100 hover:border-gray-300 rounded-[50%] px-3 py-1 cursor-pointer absolute right-2 top-0 shadow-sm text-cyan-500"
+            className="font-semibold text-lg hover:scale-[1.1] rounded-[50%] px-3 py-1 cursor-pointer absolute right-2 top-0  text-cyan-500 shadow-[1px_1px_1px_gray,-1px_-1px_1px_white] transition-all"
           >
             +
           </p>
         </div>
 
         <input
-          className="px-2 py-1 text-sm text-center font-medium border-gray-300 border-[1.5px] rounded-[20px] bg-gray-100"
+          className="px-2 py-1 text-sm text-center font-medium border-gray-300 border-[1.5px] rounded-[20px] bg-gray-100 focus:border-gray-500 animate-all duration-75"
           type="text"
           placeholder="Search the Contact"
           value={filterData}
@@ -70,7 +70,7 @@ const App = () => {
       </header>
 
       {/* main body to render contacts */}
-      <main>
+      <main className="w-full max-h-[85%] overflow-y-scroll">
         {data.map((element) => {
           return (
             <DisplayCard

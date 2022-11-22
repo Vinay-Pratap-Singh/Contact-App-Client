@@ -25,11 +25,11 @@ const AddCard = (props) => {
     <form
       type="POST"
       onSubmit={addContact}
-      className="divCenter absolute border-2 border-white w-[70%] bg-[#E3F0F4] rounded-lg"
+      className="divCenter absolute shadow-[3px_3px_3px_gray,-3px_-3px_3px_white] w-[70%] bg-[#E5E7EB] rounded-lg"
     >
       <div className="m-2 relative mt-4">
         <input
-          className="bg-transparent border border-gray-300 text-sm py-[6px] px-2 w-full rounded-md"
+          className="bg-transparent text-sm py-2 px-2 w-full rounded-md shadow-[inset_1px_1px_1px_gray,inset_-1px_-1px_1px_white]"
           type="text"
           required
           value={name}
@@ -43,7 +43,7 @@ const AddCard = (props) => {
 
       <div className="m-2 relative mt-4">
         <input
-          className="bg-transparent border border-gray-300 text-sm py-[6px] px-2 w-full rounded-md"
+          className="bg-transparent text-sm py-2 px-2 w-full rounded-md shadow-[inset_1px_1px_1px_gray,inset_-1px_-1px_1px_white]"
           type="number"
           minLength={10}
           maxLength={10}
@@ -55,7 +55,7 @@ const AddCard = (props) => {
         <label className="text-sm text-gray-500 absolute top-2 left-2">Contact Number</label>
       </div>
 
-      <button className="text-lg font-bold w-full py-1 bg-gray-700 text-white rounded-br-lg rounded-bl-lg mt-2">
+      <button className="text-lg font-bold w-full py-1 bg-gray-400 text-white rounded-br-lg rounded-bl-lg mt-3 hover:bg-gray-500 transition duration-300 ease-in-out">
         Add Contact
       </button>
     </form>
