@@ -9,6 +9,10 @@ const DisplayCard = (props) => {
   // checking that the input box can be edited or not
   const [editable, setEditable] = useState(false);
 
+  // storing the previous name and number before editing the contact
+  const [prevName, setPrevName] = useState(name);
+  const [prevNumber, setPrevNumber] = useState(number);
+
   // array of some color for the name logo
   const colors = [
     "red",
@@ -22,17 +26,25 @@ const DisplayCard = (props) => {
   ];
 
   // function to display the pop up card
-  const showCard = () => {
-    const element = document.getElementById("displayPopUp");
-    if (element.style.display === "none") {
-      element.style.display = "block";
-    } else {
-      element.style.display = "none";
-      const myBtn = document.getElementById("editDeleteBtn");
-      myBtn.innerText = "Edit";
-      setEditable(false);
+  const showCard = (event) => {
+    const popUp = event.currentTarget.nextElementSibling;
+    if (popUp.style.display === "none") {
+      popUp.style.display = "block";
+    }
+    else {
+      popUp.style.display = "none";
     }
   };
+
+  // function to close the pop up and reset the pop up items values on close button click
+  const hideCard = (event) => {
+    const editBtn = event.target.parentElement.lastChild.firstChild;
+    const popUp = event.target.parentElement;
+    popUp.style.display = "none";
+    setName(prevName);
+    setNumber(prevNumber);
+    editBtn.innerText = "Edit";
+  }
 
   // function to delete a contact
   const deleteContact = async () => {
@@ -57,6 +69,9 @@ const DisplayCard = (props) => {
       });
       setEditable(false);
       event.target.innerText = "Edit";
+      // updating the name and number in the pop up after updation
+      setPrevName(name);
+      setPrevNumber(number);
       alert(response.data.message);
       props.setNewchange(!props.newchange);
     }
@@ -91,12 +106,11 @@ const DisplayCard = (props) => {
 
       {/* pop up card */}
       <div
-        id="displayPopUp"
         className="hidden absolute divCenter shadow-[3px_3px_3px_gray,-3px_-3px_3px_white] w-[70%] bg-[#E5E7EB] rounded-lg p-2"
       >
         {/* close button for card */}
         <p
-          onClick={showCard}
+          onClick={hideCard}
           className="font-semibold text-sm hover:scale-[1.1] rounded-[50%] px-[11px] py-1 cursor-pointer absolute right-3 top-[22px] text-cyan-500 shadow-[1px_1px_1px_gray,-1px_-1px_1px_white] transition-all"
         >
           x
@@ -127,16 +141,16 @@ const DisplayCard = (props) => {
         </div>
 
         {/* buttons for edit and delete */}
-        <div className="flex items-center justify-evenly">
+        <div className="flex items-center justify-evenly mb-2">
           <button
             id="editDeleteBtn"
-            className="text-base font-bold border-2 border-white px-4"
+            className="text-base font-bold px-4 shadow-[1px_1px_1px_gray,-1px_-1px_1px_white] hover:text-cyan-600 hover:scale-[1.1] transition duration-300 ease-in-out rounded-sm"
             onClick={changeContact}
           >
             Edit
           </button>
           <button
-            className="text-base font-bold border-2 border-white px-4"
+            className="text-base font-bold px-4 shadow-[1px_1px_1px_gray,-1px_-1px_1px_white] hover:text-cyan-600 hover:scale-[1.1] transition duration-300 ease-in-out rounded-sm"
             onClick={deleteContact}
           >
             Delete

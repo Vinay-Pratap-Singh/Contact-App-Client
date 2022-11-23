@@ -14,14 +14,17 @@ const App = () => {
   // for show and hide the add contact form
   const [showForm, setShowform] = useState(false);
 
+  // handling + or - symbol in button
+  const [btnSymbol, setBtnSymbol] = useState("+");
+
   // for storing the keyword for filtering the data
   const [filterData, setFilterData] = useState("");
 
   // function for toggling the form
   const toggleShowform = (event) => {
     setShowform(!showForm);
-    if (event.target.innerHTML === "+") event.target.innerHTML = "-";
-    else event.target.innerHTML = "+";
+    if (showForm) setBtnSymbol("+");
+    else setBtnSymbol("-");
   };
 
   // function for filtering out the data on search
@@ -56,7 +59,7 @@ const App = () => {
             onClick={toggleShowform}
             className="font-semibold text-lg hover:scale-[1.1] rounded-[50%] px-3 py-1 cursor-pointer absolute right-2 top-0  text-cyan-500 shadow-[1px_1px_1px_gray,-1px_-1px_1px_white] transition-all"
           >
-            +
+            {btnSymbol}
           </p>
         </div>
 
@@ -83,7 +86,7 @@ const App = () => {
         })}
 
         {showForm && (
-          <AddCard setNewchange={setNewchange} newchange={newchange} />
+          <AddCard setNewchange={setNewchange} newchange={newchange} setShowform={setShowform} showForm={showForm} setBtnSymbol={setBtnSymbol} />
         )}
       </main>
     </div>

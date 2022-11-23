@@ -17,8 +17,15 @@ const AddCard = (props) => {
     alert(data);
     setName("");
     setNumber("");
-    //   setting the change to render the newly added contacts
+
+    //  setting the change to render the newly added contacts
     props.setNewchange(!props.newchange);
+
+    // hiding the add card pop up
+    props.setShowform(!props.showForm);
+
+    // changing the symbol of add button
+    props.setBtnSymbol("+");
   };
 
   return (
