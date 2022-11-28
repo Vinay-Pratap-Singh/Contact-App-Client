@@ -41,7 +41,7 @@ const App = () => {
   // getting the data from the database
   useEffect(() => {
     const contactDetails = async () => {
-      const response = await axios.post("/displaycontact");
+      const response = await axios.post("https://contact-app-server-production.up.railway.app/displaycontact");
       setData(response.data);
       setOrgData(response.data);
     };

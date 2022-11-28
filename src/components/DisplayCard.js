@@ -48,7 +48,7 @@ const DisplayCard = (props) => {
 
   // function to delete a contact
   const deleteContact = async () => {
-    const response = await axios.post("/deletecontact", {
+    const response = await axios.post("https://contact-app-server-production.up.railway.app/deletecontact", {
       id: props.element._id,
     });
     alert(response.data.message);
@@ -62,7 +62,7 @@ const DisplayCard = (props) => {
       setEditable(true);
       event.target.innerText = "Update";
     } else if (editable && text === "Update") {
-      const response = await axios.post("/updatecontact", {
+      const response = await axios.post("https://contact-app-server-production.up.railway.app/updatecontact", {
         id: props.element._id,
         name,
         phone: number,

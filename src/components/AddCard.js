@@ -8,7 +8,7 @@ const AddCard = (props) => {
   const addContact = async (event) => {
     event.preventDefault();
 
-    const response = await axios.post("/addcontact", {
+    const response = await axios.post("https://contact-app-server-production.up.railway.app/addcontact", {
       name: name,
       phone: number,
     });
