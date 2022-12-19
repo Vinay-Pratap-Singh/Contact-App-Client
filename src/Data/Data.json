@@ -1,0 +1,345 @@
+{
+  "ownerDetails": {
+    "name": "harvi",
+    "profilePicture": "cutePanda.jpg",
+    "about": "learning react and chakra ui"
+  },
+
+  "contacts": [
+    {
+      "profile": {
+        "name": "anirudh sir",
+        "profilePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcZm1jEMIvFsJprqPAbh5PmRppFn3TG18UiQ&usqp=CAU",
+        "lastSeen": "last seen today at 07:00 am",
+        "lastSeenDay": "today"
+      },
+
+      "chat": [
+        {
+          "user": "mainUser",
+          "message": "good morning",
+          "time": "10:50 am"
+        },
+
+        {
+          "user": "contactUser",
+          "message": "good morning sir",
+          "time": "11:50 am"
+        }       
+      ]
+    },
+
+    {
+      "profile": {
+        "name": "vinay",
+        "profilePicture": "cutePanda.jpg",
+        "lastSeen": "online",
+        "lastSeenDay": "today"
+      },
+
+      "chat": [
+        {
+          "user": "contactUser",
+          "message": "hi",
+          "time": "05:50 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "hello",
+          "time": "05:50 am"
+        }
+      ]
+    },
+
+    {
+      "profile": {
+        "name": "mahesh",
+        "profilePicture": "https://wallpaperaccess.com/full/1137899.jpg",
+        "lastSeen": "last seen today at 02:43 am",
+        "lastSeenDay": "today"
+      },
+
+      "chat": [
+        {
+          "user": "contactUser",
+          "message": "hi",
+          "time": "05:50 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "hello",
+          "time": "05:50 am"
+        },
+
+        {
+          "user": "contactUser",
+          "message": "college ana hai",
+          "time": "08:50 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "thoda late hoga",
+          "time": "08:51 am"
+        },
+
+        {
+          "user": "contactUser",
+          "message": "thik hai",
+          "time": "08:53 am"
+        },
+
+        {
+          "user": "contactUser",
+          "message": "hi",
+          "time": "05:50 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "hello",
+          "time": "05:50 am"
+        },
+
+        {
+          "user": "contactUser",
+          "message": "college ana hai",
+          "time": "08:50 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "thoda late hoga",
+          "time": "08:51 am"
+        },
+
+        {
+          "user": "contactUser",
+          "message": "thik hai",
+          "time": "08:53 am"
+        },
+
+        {
+          "user": "contactUser",
+          "message": "hi",
+          "time": "05:50 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "hello",
+          "time": "05:50 am"
+        },
+
+        {
+          "user": "contactUser",
+          "message": "college ana hai",
+          "time": "08:50 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "thoda late hoga",
+          "time": "08:51 am"
+        },
+
+        {
+          "user": "contactUser",
+          "message": "thik hai",
+          "time": "08:53 am"
+        }
+      ]
+    },
+
+    {
+      "profile": {
+        "name": "prabir",
+        "profilePicture": "https://i.guim.co.uk/img/media/fe1e34da640c5c56ed16f76ce6f994fa9343d09d/0_174_3408_2046/master/3408.jpg?width=1200&height=900&quality=85&auto=format&fit=crop&s=0d3f33fb6aa6e0154b7713a00454c83d",
+        "lastSeen": "last seen today at 11:43 am",
+        "lastSeenDay": "yesterday"
+      },
+
+      "chat": [
+        {
+          "user": "contactUser",
+          "message": "hi",
+          "time": "05:50 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "hello",
+          "time": "05:50 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "kya ho rha hai",
+          "time": "05:52 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "aur sab badiya hai",
+          "time": "05:55 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "file send kr do",
+          "time": "05:56 am"
+        },
+
+        {
+          "user": "contactUser",
+          "message": "thodi der me bhej dunga",
+          "time": "05:59 am"
+        }
+      ]
+    },
+
+    {
+      "profile": {
+        "name": "shivam",
+        "profilePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHWvPU-Miue19j2Hd2yAHNVsYOD76WwoF1pw&usqp=CAU",
+        "lastSeen": "last seen today at 08:43 pm",
+        "lastSeenDay": "today"
+      },
+
+      "chat": [
+        {
+          "user": "contactUser",
+          "message": "good morning",
+          "time": "10:50 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "good morning",
+          "time": "11:50 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "where is assignments",
+          "time": "11:52 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "how to download them",
+          "time": "11:52 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "send them on disocrd",
+          "time": "11:53 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "whenever you are free",
+          "time": "11:53 am"
+        },
+
+        {
+          "user": "contactUser",
+          "message": "hw in on dashboard",
+          "time": "12:05 pm"
+        },
+
+        {
+          "user": "contactUser",
+          "message": "logged in user can download",
+          "time": "12:06 pm"
+        },
+
+        {
+          "user": "contactUser",
+          "message": "check your slack",
+          "time": "12:07 pm"
+        },
+
+        {
+          "user": "contactUser",
+          "message": "good morning",
+          "time": "10:50 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "good morning",
+          "time": "11:50 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "where is assignments",
+          "time": "11:52 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "how to download them",
+          "time": "11:52 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "send them on disocrd",
+          "time": "11:53 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "whenever you are free",
+          "time": "11:53 am"
+        },
+
+        {
+          "user": "contactUser",
+          "message": "hw in on dashboard",
+          "time": "12:05 pm"
+        },
+
+        {
+          "user": "contactUser",
+          "message": "logged in user can download",
+          "time": "12:06 pm"
+        },
+
+        {
+          "user": "contactUser",
+          "message": "check your slack",
+          "time": "12:07 pm"
+        }
+      ]
+    },
+
+    {
+      "profile": {
+        "name": "anurag sir",
+        "profilePicture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiLfXyM_2fyOi_qD6iwyTUpyWdfvFspEPtkg&usqp=CAU",
+        "lastSeen": "last seen today at 12:00 am",
+        "lastSeenDay": "today"
+      },
+
+      "chat": [
+        {
+          "user": "contactUser",
+          "message": "good morning",
+          "time": "10:50 am"
+        },
+
+        {
+          "user": "mainUser",
+          "message": "good morning sir",
+          "time": "11:50 am"
+        }       
+      ]
+    }
+  ]
+}
