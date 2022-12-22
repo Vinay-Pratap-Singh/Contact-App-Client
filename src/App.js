@@ -1,8 +1,8 @@
-import AdminProfile from "./pages/AdminProfile/AdminProfile";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 const App = () => {
   return (
-    <AdminProfile/>
+    <Dashboard/>
   );
 };
 
