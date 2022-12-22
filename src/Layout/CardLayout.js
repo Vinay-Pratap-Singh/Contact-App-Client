@@ -10,7 +10,6 @@ const CardLayout = ({ children }) => {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      pos="relative"
       overflow="hidden"
     >
       <Container
@@ -19,12 +18,9 @@ const CardLayout = ({ children }) => {
         bgColor="#E5E7EB"
         boxShadow="5px 5px 5px gray,-5px -5px 5px white"
         borderRadius="10px"
+        pos="relative"
       >
-        <Box className="bubble bubble1" borderRadius="50%" bgColor="gray.300"></Box>
-        <Box className="bubble bubble2" borderRadius="50%" bgColor="gray.300"></Box>
-        <Box className="bubble bubble3" borderRadius="50%" bgColor="gray.300"></Box>
-        <Box className="bubble bubble4" borderRadius="50%" bgColor="gray.300"></Box>
-        <Box className="bubble bubble5" borderRadius="50%" bgColor="gray.300"></Box>
+      
         {/* adding the children here */}
         {children}
       </Container>
