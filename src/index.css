@@ -14,19 +14,6 @@ body {
   background-color: #d1d5db;
 }
 
-/* for animating the user form */
-.myLabel {
-}
-input:focus ~ label,
-input:valid ~ label {
-  top: -12px;
-  padding: 0 10px;
-  transition: all 0.3s ease-in-out;
-  background-color: #e5e7eb;
-  font-size: 14px;
-  color: rgba(228, 149, 1, 0.97);
-}
-
 /* customizing the scroll bar */
 /* width */
 ::-webkit-scrollbar {

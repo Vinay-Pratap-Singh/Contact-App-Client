@@ -2,11 +2,13 @@ import { Button } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { Heading, Link, Text, VStack } from "@chakra-ui/layout";
-import React from "react";
+import React, { useState } from "react";
 import CardLayout from "../../Layout/CardLayout";
-import { BiUpload } from "react-icons/bi";
 
 const LoginForm = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <CardLayout>
       <VStack
@@ -20,44 +22,38 @@ const LoginForm = () => {
         <Heading fontSize="25px">Login Form</Heading>
 
         <VStack w="full" gap={4}>
-          <FormControl
-            isRequired
-            pos="relative"
-            boxShadow="inset 2px 2px 2px gray,inset -2px -2px 2px white"
-          >
+          <FormControl isRequired>
+            <FormLabel htmlFor="userEmail">Email</FormLabel>
             <Input
               p={2}
               fontWeight="medium"
               type="email"
+              placeholder="Enter your email"
               variant="unstyled"
+              border="1px solid black"
               id="userEmail"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
             ></Input>
-            <FormLabel htmlFor="userEmail" pos="absolute" top={2} left={2}>
-              Email
-            </FormLabel>
           </FormControl>
 
-          <FormControl
-            isRequired
-            pos="relative"
-            boxShadow="inset 2px 2px 2px gray,inset -2px -2px 2px white"
-          >
+          <FormControl isRequired>
+            <FormLabel htmlFor="userPassword">Password</FormLabel>
             <Input
               p={2}
               fontWeight="medium"
               type="text"
               variant="unstyled"
+              border="1px solid black"
               id="userPassword"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
             ></Input>
-            <FormLabel htmlFor="userPassword" pos="absolute" top={2} left={2}>
-              Password
-            </FormLabel>
           </FormControl>
 
           <Button
-            boxShadow="2px 2px 2px gray,-2px -2px 2px white"
-            bgColor="transparent"
-            _hover={{ backgroundColor: "#D1D5DB" }}
+            type="submit"
           >
             Login
           </Button>

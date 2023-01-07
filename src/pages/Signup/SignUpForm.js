@@ -2,33 +2,54 @@ import { Button } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { Heading, Link, Text, VStack } from "@chakra-ui/layout";
-import React from "react";
+import React, { useState } from "react";
 import CardLayout from "../../Layout/CardLayout";
 import { BiUpload } from "react-icons/bi";
+import { Image, Img } from "@chakra-ui/react";
 
 const SignUpForm = () => {
+  const [imageURL, setImageURL] = useState("");
+  const [showImage, setShowImage] = useState(false);
+
+  // function to handle the image upload
+  const getImage = (event) => {
+    event.preventDefault();
+    // getting the image
+    const uploadedImage = event.target.files[0];
+
+    // if image exists then getting the url link of it
+    if (uploadedImage) {
+      const fileReader = new FileReader();
+      const url = fileReader.readAsDataURL(uploadedImage);
+      fileReader.addEventListener("load", function () {
+        setImageURL(this.result);
+      });
+    }
+  };
+
   return (
     <CardLayout>
       <VStack
         alignItems="center"
         justifyContent="center"
         h="full"
-        p="10px"
+        spacing={0}
         color="gray.700"
         gap={4}
       >
         <Heading fontSize="25px">Signup Form</Heading>
 
-        <VStack w="full" gap={4}>
+        <VStack w="full" gap={4} spacing={0}>
           {/* for uploading the image */}
           <FormControl
-            w={20}
-            h={20}
+            w="80px"
+            h="80px"
             display="flex"
             alignItems="center"
             justifyContent="center"
             border="4px solid #D1D5DB"
             borderRadius="50%"
+            spacing={0}
             boxShadow="2px 2px 2px gray,-2px -2px 2px white"
             cursor="pointer"
             _hover={{
@@ -37,12 +58,18 @@ const SignUpForm = () => {
             }}
             transition="all 0.2s ease-in-out"
           >
-            <FormLabel htmlFor="uploadImage" ml="10px" cursor="pointer">
-              <VStack spacing="0" alignItems="center">
-                <BiUpload fontSize="24px" />
-                <Text fontSize="13px" fontWeight="700">
-                  Upload
-                </Text>
+            <FormLabel htmlFor="chooseImage" cursor="pointer" ml="12px" mt="8px" borderRadius="50%">
+              <VStack spacing="0" w="75px" h="75px" display="flex" alignItems="center" justifyContent="center">
+                {imageURL ? (
+                  <Image src={imageURL} h="100%" w="100%" objectFit="inherit" objectPosition="center"  borderRadius='full' alt="uploaded image"/>
+                ) : (
+                  <VStack spacing={0}>
+                    <BiUpload fontSize="24px" />
+                    <Text fontSize="13px" fontWeight="700">
+                      Upload
+                    </Text>
+                  </VStack>
+                )}
               </VStack>
             </FormLabel>
             <Input
@@ -50,7 +77,8 @@ const SignUpForm = () => {
               variant="unstyled"
               accept=".jpg, .jpeg, .png"
               capture="user"
-              id="uploadImage"
+              id="chooseImage"
+              onChange={getImage}
               display="none"
             ></Input>
           </FormControl>
