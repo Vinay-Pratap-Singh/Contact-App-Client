@@ -1,4 +1,4 @@
-import Layout from "../../Layout/CardLayout";
+import Layout from "../../Layout/Layout";
 import { AiOutlineMenu } from "react-icons/ai";
 import { HStack, Input, VStack } from "@chakra-ui/react";
 import { HiMagnifyingGlass } from "react-icons/hi2";

@@ -3,13 +3,39 @@ import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { Heading, Text, VStack } from "@chakra-ui/layout";
 import React, { useState } from "react";
-import CardLayout from "../../Layout/CardLayout";
+import Layout from "../../Layout/Layout";
 import { BiUpload } from "react-icons/bi";
-import { Image } from "@chakra-ui/react";
+import { Image, useToast } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
+// importing the css
+import "./SignUpForm.css";
 
 const SignUpForm = () => {
+  // using the toast to display the feedback responses
+  const toast = useToast();
+
+  // for displaying the preview of selected image to upload
   const [imageURL, setImageURL] = useState("");
+
+  const [photo, setPhoto] = useState("");
+
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+  });
+
+  // function to handle the input changes
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setData({
+      ...data,
+      [name]: value,
+    });
+  };
 
   // function to handle the image upload
   const getImage = (event) => {
@@ -19,16 +45,94 @@ const SignUpForm = () => {
 
     // if image exists then getting the url link of it
     if (uploadedImage) {
+      setPhoto(uploadedImage);
       const fileReader = new FileReader();
-      const url = fileReader.readAsDataURL(uploadedImage);
+      fileReader.readAsDataURL(uploadedImage);
       fileReader.addEventListener("load", function () {
         setImageURL(this.result);
       });
     }
   };
 
+  // function to create a new user
+  const createUser = async () => {
+    try {
+      // checking the empty fields
+      if (!data.name || !data.email || !data.phone || !data.password) {
+        toast({
+          title: "Failed to create account",
+          description: "Please fill all the required fileds",
+          position: "top",
+          status: "warning",
+          duration: 3000,
+        });
+        return;
+      }
+
+      // validating the phone number
+      if (!data.phone.match(/^\d{10}$/)) {
+        toast({
+          title: "Invalid Phone Number",
+          description: "Enter a valid phone number of 10 digits",
+          position: "top",
+          status: "warning",
+          duration: 3000,
+        });
+        return;
+      }
+
+      // validating the email
+      if (!data.email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+        toast({
+          title: "Invalid Email",
+          description: "Enter a valid email address",
+          position: "top",
+          status: "warning",
+          duration: 3000,
+        });
+        return;
+      }
+
+      // validating the password
+      if (!data.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/)) {
+        toast({
+          title: "Invalid Password",
+          description:
+            "Password must contain number, lowercase, uppercase and at least 6 characters",
+          position: "top",
+          status: "warning",
+          duration: 3000,
+        });
+        return;
+      }
+
+      // creating the new user account
+      const res = await axios.post("/signup", {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        password: data.password,
+      });
+
+      toast({
+        title: res.data.message,
+        position: "top",
+        status: "success",
+        duration: 3000,
+      });
+    } catch (error) {
+      toast({
+        title: "Failed to create account",
+        description: error.response.data.message,
+        position: "top",
+        status: "error",
+        duration: 3000,
+      });
+    }
+  };
+
   return (
-    <CardLayout>
+    <Layout>
       <VStack
         alignItems="center"
         justifyContent="center"
@@ -39,7 +143,7 @@ const SignUpForm = () => {
       >
         <Heading fontSize="25px">Signup Form</Heading>
 
-        <VStack w="full" gap={4} spacing={0}>
+        <VStack w="full" gap={2}>
           {/* for uploading the image */}
           <FormControl
             w="80px"
@@ -50,7 +154,6 @@ const SignUpForm = () => {
             border="4px solid #D1D5DB"
             borderRadius="50%"
             spacing={0}
-            boxShadow="2px 2px 2px gray,-2px -2px 2px white"
             cursor="pointer"
             _hover={{
               backgroundColor: "#D1D5DB",
@@ -104,91 +207,88 @@ const SignUpForm = () => {
             ></Input>
           </FormControl>
 
-          <FormControl
-            isRequired
-            pos="relative"
-            boxShadow="inset 2px 2px 2px gray,inset -2px -2px 2px white"
-          >
+          <FormControl isRequired pos="relative" border="1.5px solid black">
             <Input
               p={2}
               fontWeight="medium"
               type="text"
               variant="unstyled"
-              id="userName"
+              id="name"
+              name="name"
+              value={data.name}
+              onChange={handleChange}
             ></Input>
-            <FormLabel htmlFor="userName" pos="absolute" top={2} left={2}>
+            <FormLabel htmlFor="name" pos="absolute" top={2} left={2}>
               Name
             </FormLabel>
           </FormControl>
 
-          <FormControl
-            isRequired
-            pos="relative"
-            boxShadow="inset 2px 2px 2px gray,inset -2px -2px 2px white"
-          >
+          <FormControl isRequired pos="relative" border="1.5px solid black">
             <Input
               p={2}
               fontWeight="medium"
               type="email"
               variant="unstyled"
-              id="userEmail"
+              id="email"
+              name="email"
+              value={data.email}
+              onChange={handleChange}
             ></Input>
-            <FormLabel htmlFor="userEmail" pos="absolute" top={2} left={2}>
+            <FormLabel htmlFor="email" pos="absolute" top={2} left={2}>
               Email
             </FormLabel>
           </FormControl>
 
-          <FormControl
-            isRequired
-            pos="relative"
-            boxShadow="inset 2px 2px 2px gray,inset -2px -2px 2px white"
-          >
+          <FormControl isRequired pos="relative" border="1.5px solid black">
             <Input
               p={2}
               fontWeight="medium"
               type="number"
               variant="unstyled"
-              id="userNumber"
+              id="phone"
+              name="phone"
+              value={data.phone}
+              onChange={handleChange}
             ></Input>
-            <FormLabel htmlFor="userNumber" pos="absolute" top={2} left={2}>
+            <FormLabel htmlFor="phone" pos="absolute" top={2} left={2}>
               Phone
             </FormLabel>
           </FormControl>
 
-          <FormControl
-            isRequired
-            pos="relative"
-            boxShadow="inset 2px 2px 2px gray,inset -2px -2px 2px white"
-          >
+          <FormControl isRequired pos="relative" border="1.5px solid black">
             <Input
               p={2}
               fontWeight="medium"
               type="text"
               variant="unstyled"
-              id="userPassword"
+              id="password"
+              name="password"
+              value={data.password}
+              onChange={handleChange}
             ></Input>
-            <FormLabel htmlFor="userPassword" pos="absolute" top={2} left={2}>
+            <FormLabel htmlFor="password" pos="absolute" top={2} left={2}>
               Password
             </FormLabel>
           </FormControl>
 
           <Button
-            boxShadow="2px 2px 2px gray,-2px -2px 2px white"
+            border="1.5px solid black"
             bgColor="transparent"
             _hover={{ backgroundColor: "#D1D5DB" }}
+            onClick={createUser}
           >
             Create Account
           </Button>
 
           <Text fontWeight="500">
             Already have an account{" "}
-            <Link to="/login" style={{color:"blue"}}>
+            <Link to="/login" style={{ color: "blue" }}>
               Login
             </Link>
           </Text>
         </VStack>
       </VStack>
-    </CardLayout>
+    </Layout>
   );
 };
 

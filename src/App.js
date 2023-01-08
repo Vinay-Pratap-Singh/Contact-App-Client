@@ -1,5 +1,5 @@
 import Dashboard from "./pages/Dashboard/Dashboard";
-import { Routes, Route, redirect, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Login from "./pages/Login/LoginForm";
 import Signup from "./pages/Signup/SignUpForm";
 import Profile from "./pages/AdminProfile/AdminProfile";

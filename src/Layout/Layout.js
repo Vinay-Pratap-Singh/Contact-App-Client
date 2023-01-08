@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Container } from "@chakra-ui/layout";
 
-const CardLayout = ({ children }) => {
+const Layout = ({ children }) => {
   return (
     <Box
       h="100vh"
@@ -28,4 +28,4 @@ const CardLayout = ({ children }) => {
   );
 };
 
-export default CardLayout;
+export default Layout;

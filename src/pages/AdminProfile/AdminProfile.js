@@ -8,13 +8,13 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React from "react";
-import CardLayout from "../../Layout/CardLayout";
+import Layout from "../../Layout/Layout";
 import { FaUser, FaArrowLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const AdminProfile = () => {
   return (
-    <CardLayout>
+    <Layout>
       <VStack
         color="#606060"
         h="full"
@@ -72,7 +72,7 @@ const AdminProfile = () => {
           <Button w="full">Delete Account</Button>
         </VStack>
       </VStack>
-    </CardLayout>
+    </Layout>
   );
 };
 

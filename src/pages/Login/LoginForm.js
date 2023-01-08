@@ -4,14 +4,14 @@ import { Input } from "@chakra-ui/input";
 import { Heading, Text, VStack } from "@chakra-ui/layout";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import CardLayout from "../../Layout/CardLayout";
+import Layout from "../../Layout/Layout";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   return (
-    <CardLayout>
+    <Layout>
       <VStack
         alignItems="center"
         justifyContent="center"
@@ -67,7 +67,7 @@ const LoginForm = () => {
           </Text>
         </VStack>
       </VStack>
-    </CardLayout>
+    </Layout>
   );
 };
 
