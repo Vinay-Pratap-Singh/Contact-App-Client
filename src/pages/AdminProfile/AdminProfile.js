@@ -10,6 +10,7 @@ import {
 import React from "react";
 import CardLayout from "../../Layout/CardLayout";
 import { FaUser, FaArrowLeft } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const AdminProfile = () => {
   return (
@@ -23,9 +24,11 @@ const AdminProfile = () => {
         pos="relative"
       >
         {/* displaying the symbol to go back to dashboard */}
-        <Button pos="absolute" left={2} top={4}>
-          <FaArrowLeft fontSize={20} />
-        </Button>
+        <Link to="/">
+          <Button pos="absolute" left={2} top={4}>
+            <FaArrowLeft fontSize={20} />
+          </Button>
+        </Link>
 
         {/* displaying the user profile image */}
         <Box

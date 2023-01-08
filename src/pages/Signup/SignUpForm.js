@@ -1,15 +1,15 @@
 import { Button } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
-import { Heading, Link, Text, VStack } from "@chakra-ui/layout";
+import { Heading, Text, VStack } from "@chakra-ui/layout";
 import React, { useState } from "react";
 import CardLayout from "../../Layout/CardLayout";
 import { BiUpload } from "react-icons/bi";
-import { Image, Img } from "@chakra-ui/react";
+import { Image } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 const SignUpForm = () => {
   const [imageURL, setImageURL] = useState("");
-  const [showImage, setShowImage] = useState(false);
 
   // function to handle the image upload
   const getImage = (event) => {
@@ -58,10 +58,31 @@ const SignUpForm = () => {
             }}
             transition="all 0.2s ease-in-out"
           >
-            <FormLabel htmlFor="chooseImage" cursor="pointer" ml="12px" mt="8px" borderRadius="50%">
-              <VStack spacing="0" w="75px" h="75px" display="flex" alignItems="center" justifyContent="center">
+            <FormLabel
+              htmlFor="chooseImage"
+              cursor="pointer"
+              ml="12px"
+              mt="8px"
+              borderRadius="50%"
+            >
+              <VStack
+                spacing="0"
+                w="75px"
+                h="75px"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
                 {imageURL ? (
-                  <Image src={imageURL} h="100%" w="100%" objectFit="inherit" objectPosition="center"  borderRadius='full' alt="uploaded image"/>
+                  <Image
+                    src={imageURL}
+                    h="100%"
+                    w="100%"
+                    objectFit="inherit"
+                    objectPosition="center"
+                    borderRadius="full"
+                    alt="uploaded image"
+                  />
                 ) : (
                   <VStack spacing={0}>
                     <BiUpload fontSize="24px" />
@@ -161,7 +182,7 @@ const SignUpForm = () => {
 
           <Text fontWeight="500">
             Already have an account{" "}
-            <Link href="/login" color="blue">
+            <Link to="/login" style={{color:"blue"}}>
               Login
             </Link>
           </Text>

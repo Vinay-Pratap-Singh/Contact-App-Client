@@ -1,8 +1,9 @@
 import { Button } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
-import { Heading, Link, Text, VStack } from "@chakra-ui/layout";
+import { Heading, Text, VStack } from "@chakra-ui/layout";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import CardLayout from "../../Layout/CardLayout";
 
 const LoginForm = () => {
@@ -60,7 +61,7 @@ const LoginForm = () => {
 
           <Text fontWeight="500">
             Create a new account{" "}
-            <Link href="/login" color="blue">
+            <Link to="/signup" style={{color:"blue"}}>
               Signup
             </Link>
           </Text>
