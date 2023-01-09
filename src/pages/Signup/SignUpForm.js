@@ -11,7 +11,7 @@ import axios from "axios";
 
 // importing the css
 import "./SignUpForm.css";
-import { AuthContext } from "../../App";
+import { UniversalContext } from "../../App";
 
 const SignUpForm = () => {
   // for handling the loading spinner
@@ -21,7 +21,7 @@ const SignUpForm = () => {
   const toast = useToast();
 
   // use context for auth context
-  const Auth = useContext(AuthContext);
+  const { isLoggedin } = useContext(UniversalContext);
 
   // usenavigate to redirect user
   const navigator = useNavigate();
@@ -177,7 +177,7 @@ const SignUpForm = () => {
 
   // for redirecting to login, if not logged in
   useEffect(() => {
-    if (Auth.isLoggedin) navigator("/login");
+    if (isLoggedin) navigator("/login");
   }, []);
 
   return (

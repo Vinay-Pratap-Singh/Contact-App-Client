@@ -11,19 +11,19 @@ import React, { useContext, useEffect } from "react";
 import Layout from "../../Layout/Layout";
 import { FaUser, FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../App";
+import { UniversalContext } from "../../App";
 
 const AdminProfile = () => {
   // use context for auth context
-  const Auth = useContext(AuthContext);
+  const {isLoggedin} = useContext(UniversalContext);
 
   // usenavigate to redirect user
   const navigator = useNavigate();
 
   // for redirecting to login, if not logged in
   useEffect(() => {
-    if (!Auth.isLoggedin) navigator("/login");
-  }, []);
+    if (!isLoggedin) navigator("/login");
+  }, [isLoggedin]);
 
   return (
     <Layout>

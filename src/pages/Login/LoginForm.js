@@ -6,7 +6,7 @@ import { Spinner, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../App";
+import { UniversalContext } from "../../App";
 import Layout from "../../Layout/Layout";
 
 const LoginForm = () => {
@@ -26,7 +26,8 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
 
   // getting the auth context
-  const Auth = useContext(AuthContext);
+  const { isLoggedin, setIsLoggedin, orgData, setOrgData } =
+    useContext(UniversalContext);
 
   // function to handle the input
   const handleInput = (event) => {
@@ -74,7 +75,7 @@ const LoginForm = () => {
       });
 
       // setting the auth to true
-      Auth.setIsLoggedin(true);
+      setIsLoggedin(true);
       localStorage.setItem("isLoggedin", true);
 
       toast({
@@ -102,8 +103,8 @@ const LoginForm = () => {
 
   // for redirecting to login, if not logged in
   useEffect(() => {
-    if (Auth.isLoggedin) navigator("/");
-  }, [Auth.isLoggedin]);
+    if (isLoggedin) navigator("/");
+  }, [isLoggedin]);
 
   return (
     <Layout>

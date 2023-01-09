@@ -1,5 +1,5 @@
 import Layout from "../../Layout/Layout";
-import { AiOutlineMenu, AiOutlineLogout } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineLogout, AiOutlinePlus } from "react-icons/ai";
 import {
   Button,
   HStack,
@@ -11,17 +11,28 @@ import {
 } from "@chakra-ui/react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import ContactCard from "../../components/ContactCard/ContactCard";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useFetcher, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../App";
+import { UniversalContext } from "../../App";
 import axios from "axios";
 
 const Dashboard = () => {
   // for handling the loading spinner
   const [loading, setLoading] = useState(false);
 
-  // use context for auth context
-  const { isLoggedin, setIsLoggedin } = useContext(AuthContext);
+  // getting items from context
+  const {
+    isLoggedin,
+    setIsLoggedin,
+    orgData,
+    setOrgData,
+    isModified,
+    setIsModified,
+  } = useContext(UniversalContext);
+
+  // state for storing the user contact
+
+  const [contact, setContact] = useState(orgData.contact || []);
 
   // useNavigate to redirect user
   const navigator = useNavigate();
@@ -62,6 +73,27 @@ const Dashboard = () => {
       setLoading(false);
     }
   };
+
+  // for getting the data
+  useEffect(() => {
+    // function for getting the data
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("/dashboard");
+        // setting the original data
+        setOrgData(res.data.data);
+        localStorage.setItem("orgData", JSON.stringify(res.data.data));
+      } catch (error) {
+        toast({
+          title: "Failed to load contact",
+          position: "top",
+          status: "error",
+          duration: 3000,
+        });
+      }
+    };
+    fetchData();
+  }, [isModified]);
 
   // for redirecting to login, if not logged in
   useEffect(() => {
@@ -128,15 +160,17 @@ const Dashboard = () => {
 
           {/* adding the contact cards */}
           <VStack overflowY="scroll" h="75vh" w="full" py={4} pr={3}>
-            <ContactCard />
-            <ContactCard />
-            <ContactCard />
-            <ContactCard />
-            <ContactCard />
-            <ContactCard />
-            <ContactCard />
-            <ContactCard />
-            <ContactCard />
+            {contact.map((element) => {
+              return (
+                <ContactCard
+                  name={element.name}
+                  phone={element.phone}
+                  photo={element.photo}
+                  bgColor={element.bgColor}
+                  key={element._id}
+                />
+              );
+            })}
           </VStack>
         </VStack>
       )}
