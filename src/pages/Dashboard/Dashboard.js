@@ -1,6 +1,13 @@
 import Layout from "../../Layout/Layout";
 import { AiOutlineMenu, AiOutlineLogout } from "react-icons/ai";
-import { Button, HStack, Input, Tooltip, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  HStack,
+  Input,
+  Tooltip,
+  useToast,
+  VStack,
+} from "@chakra-ui/react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import ContactCard from "../../components/ContactCard/ContactCard";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,22 +17,43 @@ import axios from "axios";
 
 const Dashboard = () => {
   // use context for auth context
-  const Auth = useContext(AuthContext);
+  const { isLoggedin, setIsLoggedin } = useContext(AuthContext);
 
-  // usenavigate to redirect user
+  // useNavigate to redirect user
   const navigator = useNavigate();
 
+  // using the toast to display the feedback responses
+  const toast = useToast();
+
   // function to logout the user account
-  const logout = () => {
+  const logout = async () => {
     try {
-      axios.get("/logout");
-    } catch (error) {}
+      await axios.get("/logout");
+      toast({
+        title: "Logout Successful",
+        position: "top",
+        status: "success",
+        duration: 3000,
+      });
+
+      // changing the login state of user
+      setIsLoggedin(false);
+      localStorage.removeItem("isLoggedin");
+    } catch (error) {
+      toast({
+        title: "Failed to logout",
+        description: error.response.data.message,
+        position: "top",
+        status: "error",
+        duration: 3000,
+      });
+    }
   };
 
   // for redirecting to login, if not logged in
   useEffect(() => {
-    if (!Auth.isLoggedin) navigator("/login");
-  }, []);
+    if (!isLoggedin) navigator("/login");
+  }, [isLoggedin]);
 
   return (
     <Layout>
@@ -34,11 +62,15 @@ const Dashboard = () => {
         <HStack w="full" h="11vh" gap={4} alignItems="center">
           {/* adding the menu icon for user account details */}
           <Tooltip hasArrow label="User Profile">
-          <Button>
-            <Link to="/profile">
-              <AiOutlineMenu fontSize="25px" cursor="pointer" color="#3f3f3f" />
-            </Link>
-          </Button>
+            <Button>
+              <Link to="/profile">
+                <AiOutlineMenu
+                  fontSize="25px"
+                  cursor="pointer"
+                  color="#3f3f3f"
+                />
+              </Link>
+            </Button>
           </Tooltip>
 
           {/* adding the search bar */}

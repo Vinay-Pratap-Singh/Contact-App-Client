@@ -17,11 +17,19 @@ const SignUpForm = () => {
   // using the toast to display the feedback responses
   const toast = useToast();
 
+  // use context for auth context
+  const Auth = useContext(AuthContext);
+
+  // usenavigate to redirect user
+  const navigator = useNavigate();
+
   // for displaying the preview of selected image to upload
   const [imageURL, setImageURL] = useState("");
 
+  // stores the original uploaded image
   const [photo, setPhoto] = useState("");
 
+  // storing the data entered by user
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -119,12 +127,20 @@ const SignUpForm = () => {
         formData.append("photo", photo);
       }
 
-      const res=await axios({
+      // creating the new user account
+      const res = await axios({
         method: "post",
         url: "/signup",
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
-      })
+      });
+
+      toast({
+        title: "Login with your credentials",
+        position: "top",
+        status: "success",
+        duration: 3000,
+      });
 
       toast({
         title: res.data.message,
@@ -132,10 +148,13 @@ const SignUpForm = () => {
         status: "success",
         duration: 3000,
       });
+
+      // sending the user to log in page
+      navigator("/login");
+
     } catch (error) {
       console.log(error);
       toast({
-        // error.response.data.message
         title: "Failed to create account",
         description: error.response.data.message,
         position: "top",
@@ -145,16 +164,11 @@ const SignUpForm = () => {
     }
   };
 
-  // use context for auth context
-  const Auth = useContext(AuthContext);
-
-  // usenavigate to redirect user
-  const navigator = useNavigate();
-
   // for redirecting to login, if not logged in
   useEffect(() => {
     if (Auth.isLoggedin) navigator("/login");
   }, []);
+
   return (
     <Layout>
       <VStack
