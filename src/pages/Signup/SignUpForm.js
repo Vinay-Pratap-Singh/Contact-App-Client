@@ -2,15 +2,16 @@ import { Button } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { Heading, Text, VStack } from "@chakra-ui/layout";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../Layout/Layout";
 import { BiUpload } from "react-icons/bi";
 import { Image, useToast } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 // importing the css
 import "./SignUpForm.css";
+import { AuthContext } from "../../App";
 
 const SignUpForm = () => {
   // using the toast to display the feedback responses
@@ -131,6 +132,16 @@ const SignUpForm = () => {
     }
   };
 
+    // use context for auth context
+    const Auth = useContext(AuthContext);
+
+    // usenavigate to redirect user
+    const navigator = useNavigate();
+  
+    // for redirecting to login, if not logged in
+    useEffect(() => {
+      if (Auth.isLoggedin) navigator("/login");
+    },[])  
   return (
     <Layout>
       <VStack

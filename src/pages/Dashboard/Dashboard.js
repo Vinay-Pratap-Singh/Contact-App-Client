@@ -3,9 +3,22 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { HStack, Input, VStack } from "@chakra-ui/react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import ContactCard from "../../components/ContactCard/ContactCard";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../../App";
 
 const Dashboard = () => {
+  // use context for auth context
+  const Auth = useContext(AuthContext);
+
+  // usenavigate to redirect user
+  const navigator = useNavigate();
+
+  // for redirecting to login, if not logged in
+  useEffect(() => {
+    if (!Auth.isLoggedin) navigator("/login");
+  },[])  
+
   return (
     <Layout>
       <VStack>

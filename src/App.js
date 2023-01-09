@@ -10,21 +10,20 @@ export const AuthContext = createContext();
 
 const App = () => {
   const [isLoggedin, setIsLoggedin] = useState(
-    localStorage.getItem("isLoggedin") || null
-  );
+    localStorage.getItem("isLoggedin"));
 
   const navigator = useNavigate();
 
   // redirecting the user to login page if not logged in
   useEffect(() => {
-    navigator("/login");
+    if(!isLoggedin) navigator("/login");
   }, [isLoggedin]);
 
   return (
     <AuthContext.Provider value={{ isLoggedin, setIsLoggedin }}>
       <Routes>
-        {isLoggedin && <Route path="/" element={<Dashboard />} />}
-        {isLoggedin && <Route path="/profile" element={<Profile />} />}
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>

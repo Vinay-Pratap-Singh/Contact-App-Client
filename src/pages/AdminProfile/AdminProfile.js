@@ -7,12 +7,24 @@ import {
   HStack,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Layout from "../../Layout/Layout";
 import { FaUser, FaArrowLeft } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../App";
 
 const AdminProfile = () => {
+  // use context for auth context
+  const Auth = useContext(AuthContext);
+
+  // usenavigate to redirect user
+  const navigator = useNavigate();
+
+  // for redirecting to login, if not logged in
+  useEffect(() => {
+    if (!Auth.isLoggedin) navigator("/login");
+  }, []);
+
   return (
     <Layout>
       <VStack
