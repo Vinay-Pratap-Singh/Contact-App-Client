@@ -107,13 +107,24 @@ const SignUpForm = () => {
         return;
       }
 
-      // creating the new user account
-      const res = await axios.post("/signup", {
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        password: data.password,
-      });
+      // creating the form data from existing data to send
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("email", data.email);
+      formData.append("phone", data.phone);
+      formData.append("password", data.password);
+
+      // if photo exist
+      if (photo) {
+        formData.append("photo", photo);
+      }
+
+      const res=await axios({
+        method: "post",
+        url: "/signup",
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      })
 
       toast({
         title: res.data.message,
@@ -122,7 +133,9 @@ const SignUpForm = () => {
         duration: 3000,
       });
     } catch (error) {
+      console.log(error);
       toast({
+        // error.response.data.message
         title: "Failed to create account",
         description: error.response.data.message,
         position: "top",
@@ -132,16 +145,16 @@ const SignUpForm = () => {
     }
   };
 
-    // use context for auth context
-    const Auth = useContext(AuthContext);
+  // use context for auth context
+  const Auth = useContext(AuthContext);
 
-    // usenavigate to redirect user
-    const navigator = useNavigate();
-  
-    // for redirecting to login, if not logged in
-    useEffect(() => {
-      if (Auth.isLoggedin) navigator("/login");
-    },[])  
+  // usenavigate to redirect user
+  const navigator = useNavigate();
+
+  // for redirecting to login, if not logged in
+  useEffect(() => {
+    if (Auth.isLoggedin) navigator("/login");
+  }, []);
   return (
     <Layout>
       <VStack

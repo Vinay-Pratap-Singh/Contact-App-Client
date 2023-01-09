@@ -71,9 +71,6 @@ const LoginForm = () => {
       Auth.setIsLoggedin(true);
       localStorage.setItem("isLoggedin", true);
 
-      // routing the user to dashboard
-      navigator("/dashboard");
-
       toast({
         title: res.data.message,
         position: "top",
@@ -94,7 +91,7 @@ const LoginForm = () => {
   // for redirecting to login, if not logged in
   useEffect(() => {
     if (Auth.isLoggedin) navigator("/");
-  }, []);
+  }, [Auth.isLoggedin]);
 
   return (
     <Layout>

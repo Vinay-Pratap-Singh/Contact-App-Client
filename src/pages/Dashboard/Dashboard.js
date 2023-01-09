@@ -1,11 +1,12 @@
 import Layout from "../../Layout/Layout";
-import { AiOutlineMenu } from "react-icons/ai";
-import { HStack, Input, VStack } from "@chakra-ui/react";
+import { AiOutlineMenu, AiOutlineLogout } from "react-icons/ai";
+import { Button, HStack, Input, Tooltip, VStack } from "@chakra-ui/react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import ContactCard from "../../components/ContactCard/ContactCard";
 import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../App";
+import axios from "axios";
 
 const Dashboard = () => {
   // use context for auth context
@@ -14,10 +15,17 @@ const Dashboard = () => {
   // usenavigate to redirect user
   const navigator = useNavigate();
 
+  // function to logout the user account
+  const logout = () => {
+    try {
+      axios.get("/logout");
+    } catch (error) {}
+  };
+
   // for redirecting to login, if not logged in
   useEffect(() => {
     if (!Auth.isLoggedin) navigator("/login");
-  },[])  
+  }, []);
 
   return (
     <Layout>
@@ -25,9 +33,13 @@ const Dashboard = () => {
         {/* adding the header menu and search bar */}
         <HStack w="full" h="11vh" gap={4} alignItems="center">
           {/* adding the menu icon for user account details */}
-          <Link to="/profile">
-          <AiOutlineMenu fontSize="30px" cursor="pointer" color="#3f3f3f" />
-          </Link>
+          <Tooltip hasArrow label="User Profile">
+          <Button>
+            <Link to="/profile">
+              <AiOutlineMenu fontSize="25px" cursor="pointer" color="#3f3f3f" />
+            </Link>
+          </Button>
+          </Tooltip>
 
           {/* adding the search bar */}
           <HStack
@@ -42,6 +54,19 @@ const Dashboard = () => {
             <HiMagnifyingGlass />
             <Input fontWeight="600" placeholder="Search" variant="unstyled" />
           </HStack>
+
+          {/* adding the logout button */}
+          <Tooltip hasArrow label="Logout">
+            <Button
+              fontSize="35px"
+              cursor="pointer"
+              color="#3f3f3f"
+              fontWeight="extrabold"
+              onClick={logout}
+            >
+              <AiOutlineLogout />
+            </Button>
+          </Tooltip>
         </HStack>
 
         {/* adding the contact cards */}
