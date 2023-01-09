@@ -11,6 +11,7 @@ const Layout = ({ children }) => {
       alignItems="center"
       justifyContent="center"
       overflow="hidden"
+      pos="relative"
     >
       <Container
         h="90vh"

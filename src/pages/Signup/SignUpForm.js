@@ -5,7 +5,7 @@ import { Heading, Text, VStack } from "@chakra-ui/layout";
 import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../Layout/Layout";
 import { BiUpload } from "react-icons/bi";
-import { Image, useToast } from "@chakra-ui/react";
+import { Image, Spinner, useToast } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -14,6 +14,9 @@ import "./SignUpForm.css";
 import { AuthContext } from "../../App";
 
 const SignUpForm = () => {
+  // for handling the loading spinner
+  const [loading, setLoading] = useState(false);
+
   // using the toast to display the feedback responses
   const toast = useToast();
 
@@ -66,6 +69,9 @@ const SignUpForm = () => {
   // function to create a new user
   const createUser = async () => {
     try {
+      // displaying the loader
+      setLoading(true);
+
       // checking the empty fields
       if (!data.name || !data.email || !data.phone || !data.password) {
         toast({
@@ -152,6 +158,8 @@ const SignUpForm = () => {
       // sending the user to log in page
       navigator("/login");
 
+      // hiding the loader
+      setLoading(false);
     } catch (error) {
       console.log(error);
       toast({
@@ -161,6 +169,9 @@ const SignUpForm = () => {
         status: "error",
         duration: 3000,
       });
+
+      // hiding the loader
+      setLoading(false);
     }
   };
 
@@ -171,161 +182,174 @@ const SignUpForm = () => {
 
   return (
     <Layout>
-      <VStack
-        alignItems="center"
-        justifyContent="center"
-        h="full"
-        spacing={0}
-        color="gray.700"
-        gap={4}
-      >
-        <Heading fontSize="25px">Signup Form</Heading>
+      {loading ? (
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="green.100"
+          color="green.500"
+          size="xl"
+          pos="absolute"
+          left="45%"
+          top="45%"
+        />
+      ) : (
+        <VStack
+          alignItems="center"
+          justifyContent="center"
+          h="full"
+          spacing={0}
+          color="gray.700"
+          gap={4}
+        >
+          <Heading fontSize="25px">Signup Form</Heading>
 
-        <VStack w="full" gap={2}>
-          {/* for uploading the image */}
-          <FormControl
-            w="80px"
-            h="80px"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            border="4px solid #D1D5DB"
-            borderRadius="50%"
-            spacing={0}
-            cursor="pointer"
-            _hover={{
-              backgroundColor: "#D1D5DB",
-              color: "rgba(228, 149, 1, 0.97)",
-            }}
-            transition="all 0.2s ease-in-out"
-          >
-            <FormLabel
-              htmlFor="chooseImage"
-              cursor="pointer"
-              ml="12px"
-              mt="8px"
+          <VStack w="full" gap={2}>
+            {/* for uploading the image */}
+            <FormControl
+              w="80px"
+              h="80px"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              border="4px solid #D1D5DB"
               borderRadius="50%"
+              spacing={0}
+              cursor="pointer"
+              _hover={{
+                backgroundColor: "#D1D5DB",
+                color: "rgba(228, 149, 1, 0.97)",
+              }}
+              transition="all 0.2s ease-in-out"
             >
-              <VStack
-                spacing="0"
-                w="75px"
-                h="75px"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
+              <FormLabel
+                htmlFor="chooseImage"
+                cursor="pointer"
+                ml="12px"
+                mt="8px"
+                borderRadius="50%"
               >
-                {imageURL ? (
-                  <Image
-                    src={imageURL}
-                    h="100%"
-                    w="100%"
-                    objectFit="inherit"
-                    objectPosition="center"
-                    borderRadius="full"
-                    alt="uploaded image"
-                  />
-                ) : (
-                  <VStack spacing={0}>
-                    <BiUpload fontSize="24px" />
-                    <Text fontSize="13px" fontWeight="700">
-                      Upload
-                    </Text>
-                  </VStack>
-                )}
-              </VStack>
-            </FormLabel>
-            <Input
-              type="file"
-              variant="unstyled"
-              accept=".jpg, .jpeg, .png"
-              capture="user"
-              id="chooseImage"
-              onChange={getImage}
-              display="none"
-            ></Input>
-          </FormControl>
+                <VStack
+                  spacing="0"
+                  w="75px"
+                  h="75px"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  {imageURL ? (
+                    <Image
+                      src={imageURL}
+                      h="100%"
+                      w="100%"
+                      objectFit="inherit"
+                      objectPosition="center"
+                      borderRadius="full"
+                      alt="uploaded image"
+                    />
+                  ) : (
+                    <VStack spacing={0}>
+                      <BiUpload fontSize="24px" />
+                      <Text fontSize="13px" fontWeight="700">
+                        Upload
+                      </Text>
+                    </VStack>
+                  )}
+                </VStack>
+              </FormLabel>
+              <Input
+                type="file"
+                variant="unstyled"
+                accept=".jpg, .jpeg, .png"
+                capture="user"
+                id="chooseImage"
+                onChange={getImage}
+                display="none"
+              ></Input>
+            </FormControl>
 
-          <FormControl isRequired pos="relative" border="1.5px solid black">
-            <Input
-              p={2}
-              fontWeight="medium"
-              type="text"
-              variant="unstyled"
-              id="name"
-              name="name"
-              value={data.name}
-              onChange={handleChange}
-            ></Input>
-            <FormLabel htmlFor="name" pos="absolute" top={2} left={2}>
-              Name
-            </FormLabel>
-          </FormControl>
+            <FormControl isRequired pos="relative" border="1.5px solid black">
+              <Input
+                p={2}
+                fontWeight="medium"
+                type="text"
+                variant="unstyled"
+                id="name"
+                name="name"
+                value={data.name}
+                onChange={handleChange}
+              ></Input>
+              <FormLabel htmlFor="name" pos="absolute" top={2} left={2}>
+                Name
+              </FormLabel>
+            </FormControl>
 
-          <FormControl isRequired pos="relative" border="1.5px solid black">
-            <Input
-              p={2}
-              fontWeight="medium"
-              type="email"
-              variant="unstyled"
-              id="email"
-              name="email"
-              value={data.email}
-              onChange={handleChange}
-            ></Input>
-            <FormLabel htmlFor="email" pos="absolute" top={2} left={2}>
-              Email
-            </FormLabel>
-          </FormControl>
+            <FormControl isRequired pos="relative" border="1.5px solid black">
+              <Input
+                p={2}
+                fontWeight="medium"
+                type="email"
+                variant="unstyled"
+                id="email"
+                name="email"
+                value={data.email}
+                onChange={handleChange}
+              ></Input>
+              <FormLabel htmlFor="email" pos="absolute" top={2} left={2}>
+                Email
+              </FormLabel>
+            </FormControl>
 
-          <FormControl isRequired pos="relative" border="1.5px solid black">
-            <Input
-              p={2}
-              fontWeight="medium"
-              type="number"
-              variant="unstyled"
-              id="phone"
-              name="phone"
-              value={data.phone}
-              onChange={handleChange}
-            ></Input>
-            <FormLabel htmlFor="phone" pos="absolute" top={2} left={2}>
-              Phone
-            </FormLabel>
-          </FormControl>
+            <FormControl isRequired pos="relative" border="1.5px solid black">
+              <Input
+                p={2}
+                fontWeight="medium"
+                type="number"
+                variant="unstyled"
+                id="phone"
+                name="phone"
+                value={data.phone}
+                onChange={handleChange}
+              ></Input>
+              <FormLabel htmlFor="phone" pos="absolute" top={2} left={2}>
+                Phone
+              </FormLabel>
+            </FormControl>
 
-          <FormControl isRequired pos="relative" border="1.5px solid black">
-            <Input
-              p={2}
-              fontWeight="medium"
-              type="text"
-              variant="unstyled"
-              id="password"
-              name="password"
-              value={data.password}
-              onChange={handleChange}
-            ></Input>
-            <FormLabel htmlFor="password" pos="absolute" top={2} left={2}>
-              Password
-            </FormLabel>
-          </FormControl>
+            <FormControl isRequired pos="relative" border="1.5px solid black">
+              <Input
+                p={2}
+                fontWeight="medium"
+                type="text"
+                variant="unstyled"
+                id="password"
+                name="password"
+                value={data.password}
+                onChange={handleChange}
+              ></Input>
+              <FormLabel htmlFor="password" pos="absolute" top={2} left={2}>
+                Password
+              </FormLabel>
+            </FormControl>
 
-          <Button
-            border="1.5px solid black"
-            bgColor="transparent"
-            _hover={{ backgroundColor: "#D1D5DB" }}
-            onClick={createUser}
-          >
-            Create Account
-          </Button>
+            <Button
+              border="1.5px solid black"
+              bgColor="transparent"
+              _hover={{ backgroundColor: "#D1D5DB" }}
+              onClick={createUser}
+            >
+              Create Account
+            </Button>
 
-          <Text fontWeight="500">
-            Already have an account{" "}
-            <Link to="/login" style={{ color: "blue" }}>
-              Login
-            </Link>
-          </Text>
+            <Text fontWeight="500">
+              Already have an account{" "}
+              <Link to="/login" style={{ color: "blue" }}>
+                Login
+              </Link>
+            </Text>
+          </VStack>
         </VStack>
-      </VStack>
+      )}
     </Layout>
   );
 };
