@@ -31,8 +31,10 @@ const Dashboard = () => {
   } = useContext(UniversalContext);
 
   // state for storing the user contact
-
   const [contact, setContact] = useState(orgData.contact || []);
+
+  // for storing the searched text
+  const [searchText, setSearchText] = useState();
 
   // useNavigate to redirect user
   const navigator = useNavigate();
@@ -73,6 +75,23 @@ const Dashboard = () => {
       setLoading(false);
     }
   };
+
+  // for implementing the search functionality
+  useEffect(() => {
+    const searchContact = () => {
+      if (!searchText) {
+        setContact(orgData.contact);
+        return;
+      }
+      const searchedContacts = orgData.contact.filter((element) => {
+        return element.name.includes(searchText);
+      });
+
+      // setting the new contacts in state
+      setContact(searchedContacts);
+    };
+    searchContact();
+  }, [searchText]);
 
   // for getting the data
   useEffect(() => {
@@ -141,7 +160,13 @@ const Dashboard = () => {
               alignItems="center"
             >
               <HiMagnifyingGlass />
-              <Input fontWeight="600" placeholder="Search" variant="unstyled" />
+              <Input
+                fontWeight="600"
+                placeholder="Search"
+                variant="unstyled"
+                value={searchText}
+                onChange={(event) => setSearchText(event.target.value)}
+              />
             </HStack>
 
             {/* adding the logout button */}
