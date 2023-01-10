@@ -34,7 +34,7 @@ const Dashboard = () => {
   const [contact, setContact] = useState(orgData.contact || []);
 
   // for storing the searched text
-  const [searchText, setSearchText] = useState();
+  const [searchText, setSearchText] = useState("");
 
   // useNavigate to redirect user
   const navigator = useNavigate();
@@ -100,12 +100,19 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get("/dashboard");
+
+        // if success is false
+        if (!res.data.success) {
+          navigator("/login");
+          return;
+        }
         // setting the original data
         setOrgData(res.data.data);
         localStorage.setItem("orgData", JSON.stringify(res.data.data));
       } catch (error) {
         toast({
           title: "Failed to load contact",
+          description:"Refresh page or login again after logout",
           position: "top",
           status: "error",
           duration: 3000,
@@ -186,17 +193,18 @@ const Dashboard = () => {
 
           {/* adding the contact cards */}
           <VStack overflowY="scroll" h="75vh" w="full" py={4} pr={3}>
-            {contact.map((element) => {
-              return (
-                <ContactCard
-                  name={element.name}
-                  phone={element.phone}
-                  photo={element.photo}
-                  bgColor={element.bgColor}
-                  key={element._id}
-                />
-              );
-            })}
+            {contact &&
+              contact.map((element) => {
+                return (
+                  <ContactCard
+                    name={element.name}
+                    phone={element.phone}
+                    photo={element.photo}
+                    bgColor={element.bgColor}
+                    key={element._id}
+                  />
+                );
+              })}
           </VStack>
         </VStack>
       )}

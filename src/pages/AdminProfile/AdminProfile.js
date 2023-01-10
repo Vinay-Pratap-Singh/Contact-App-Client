@@ -5,6 +5,7 @@ import {
   GridItem,
   Heading,
   HStack,
+  Image,
   VStack,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect } from "react";
@@ -15,7 +16,11 @@ import { UniversalContext } from "../../App";
 
 const AdminProfile = () => {
   // use context for auth context
-  const {isLoggedin} = useContext(UniversalContext);
+  const { isLoggedin, orgData } = useContext(UniversalContext);
+  
+  // for handling the profile image
+  let profileImage=undefined;
+  if (orgData.photo) profileImage = orgData.photo;
 
   // usenavigate to redirect user
   const navigator = useNavigate();
@@ -28,7 +33,6 @@ const AdminProfile = () => {
   return (
     <Layout>
       <VStack
-        color="#606060"
         h="full"
         spacing={5}
         alignItems="center"
@@ -45,34 +49,32 @@ const AdminProfile = () => {
         {/* displaying the user profile image */}
         <Box
           bg="white"
-          border="10px solid #D1D5DB"
+          border="1.5px solid #D1D5DB"
           borderRadius="50%"
           w={40}
           h={40}
           display="flex"
           alignItems="center"
           justifyContent="center"
-          boxShadow="2px 2px 2px gray, -2px -2px 2px white"
         >
-          {/* if user image has no profile image */}
-          <FaUser fontSize={96} color="#D1D5DB" />
+          {
+            profileImage ? <Image borderRadius="50%" src={ profileImage} />:<FaUser fontSize={96} color="#D1D5DB" />
+          }
+          
 
-          {/* if user has profile image */}
-
-          {/* profile image */}
         </Box>
 
         {/* displaying the user name */}
-        <Heading fontSize={20}>Harvi</Heading>
+        <Heading fontSize={20}>{orgData.name.toUpperCase()}</Heading>
 
         {/* displaying the user's other profile details */}
         <Grid templateColumns="repeat(2, 1fr)">
           <GridItem>Phone</GridItem>
-          <GridItem>1234567890</GridItem>
+          <GridItem>{orgData.phone }</GridItem>
           <GridItem>Email</GridItem>
-          <GridItem>vinay@ineuron.ai</GridItem>
+          <GridItem>{orgData.email}</GridItem>
           <GridItem>Total Contacts</GridItem>
-          <GridItem>100</GridItem>
+          <GridItem>{orgData.contact.length}</GridItem>
         </Grid>
 
         {/* displaying the buttons for editing the profile and  */}
