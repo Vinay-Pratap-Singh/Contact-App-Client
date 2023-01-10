@@ -59,6 +59,7 @@ const Dashboard = () => {
       // changing the login state of user
       setIsLoggedin(false);
       localStorage.removeItem("isLoggedin");
+      localStorage.removeItem("orgData");
 
       // hiding the loader
       setLoading(false);

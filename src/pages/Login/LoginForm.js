@@ -1,7 +1,7 @@
 import { Button } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
-import { Heading, Text, VStack } from "@chakra-ui/layout";
+import { Heading, HStack, Text, VStack } from "@chakra-ui/layout";
 import { Spinner, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
@@ -163,9 +163,18 @@ const LoginForm = () => {
               ></Input>
             </FormControl>
 
-            <Button type="submit" onClick={login}>
-              Login
-            </Button>
+            <HStack>
+              <Button
+                onClick={() =>
+                  setData({ email: "test@gmail.com", password: "Test@123" })
+                }
+              >
+                Use Test Credential
+              </Button>
+              <Button type="submit" onClick={login}>
+                Login
+              </Button>
+            </HStack>
 
             <Text fontWeight="500">
               Create a new account{" "}
