@@ -6,7 +6,6 @@ const Layout = ({ children }) => {
     <Box
       h="100vh"
       w="100vw"
-      bgColor="#D1D5DB"
       display="flex"
       alignItems="center"
       justifyContent="center"
@@ -16,8 +15,8 @@ const Layout = ({ children }) => {
       <Container
         h="90vh"
         w="400px"
-        bgColor="#E5E7EB"
-        boxShadow="5px 5px 5px gray,-5px -5px 5px white"
+        border="1px solid"
+        boxShadow="2px 2px 5px,-2px -2px 5px"
         borderRadius="10px"
         pos="relative"
       >

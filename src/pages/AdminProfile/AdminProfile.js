@@ -13,6 +13,7 @@ import Layout from "../../Layout/Layout";
 import { FaUser, FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { UniversalContext } from "../../App";
+import { ColorModeSwitcher } from "../../ColorModeSwitcher";
 
 const AdminProfile = () => {
   // use context for auth context
@@ -45,6 +46,9 @@ const AdminProfile = () => {
             <FaArrowLeft fontSize={20} />
           </Button>
         </Link>
+
+        {/* adding the color mode switcher for dark and light mode */}
+        <ColorModeSwitcher pos="absolute" right={2} top="-5px" />
 
         {/* displaying the user profile image */}
         <Box

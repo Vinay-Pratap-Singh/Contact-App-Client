@@ -151,7 +151,6 @@ const Dashboard = () => {
                   <AiOutlineMenu
                     fontSize="25px"
                     cursor="pointer"
-                    color="#3f3f3f"
                   />
                 </Link>
               </Button>
@@ -160,7 +159,7 @@ const Dashboard = () => {
             {/* adding the search bar */}
             <HStack
               fontSize="20px"
-              border="1.5px solid #3f3f3f"
+              border="1.5px solid"
               w="full"
               borderRadius={20}
               px="10px"
@@ -182,7 +181,6 @@ const Dashboard = () => {
               <Button
                 fontSize="35px"
                 cursor="pointer"
-                color="#3f3f3f"
                 fontWeight="extrabold"
                 onClick={logout}
               >
