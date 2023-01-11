@@ -1,12 +1,22 @@
 import {
   Box,
   Button,
+  FormControl,
   Grid,
   GridItem,
   Heading,
   HStack,
   Image,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Tooltip,
+  useDisclosure,
   useToast,
   VStack,
 } from "@chakra-ui/react";
@@ -21,6 +31,11 @@ import axios from "axios";
 const AdminProfile = () => {
   // use context for auth context
   const { isLoggedin, setIsLoggedin, orgData } = useContext(UniversalContext);
+
+  // for handling the change password modal
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const initialRef = React.useRef(null);
+  const finalRef = React.useRef(null);
 
   // using toast
   const toast = useToast();
@@ -91,6 +106,18 @@ const AdminProfile = () => {
     }
   };
 
+  // function for bluring the model background
+  const Overlay = () => (
+    <ModalOverlay
+      bg="none"
+      backdropFilter="auto"
+      backdropInvert="80%"
+      backdropBlur="2px"
+    />
+  );
+  // state for handling the blury effect
+  const [overlay, setOverlay] = React.useState(<Overlay />);
+
   // for redirecting to login, if not logged in
   useEffect(() => {
     if (!isLoggedin) navigator("/login");
@@ -152,11 +179,52 @@ const AdminProfile = () => {
         <VStack>
           <HStack>
             <Button>Change Picture</Button>
-            <Button onClick={changePassword}>Change Password</Button>
+            <Button
+              onClick={() => {
+                setOverlay(<Overlay />);
+                onOpen();
+              }}
+            >
+              Change Password
+            </Button>
           </HStack>
           <Button w="full">Delete Account</Button>
         </VStack>
       </VStack>
+
+      {/* for handling the password change */}
+      <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isOpen}
+        onClose={onClose}
+        size="sm"
+      >
+        {overlay}
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Change your password</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={4} pt={0}>
+            <FormControl>
+              <Input
+                value={newPassword}
+                onChange={(event) => setNewPassword(event.target.value)}
+                placeholder="Enter your new password"
+              />
+            </FormControl>
+          </ModalBody>
+
+          <ModalFooter w="full" px={2}>
+            <Button onClick={changePassword} colorScheme="blue" mr={3} w="full">
+              Update
+            </Button>
+            <Button w="full" onClick={onClose}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Layout>
   );
 };
