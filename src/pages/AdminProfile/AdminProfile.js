@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   FormControl,
+  FormLabel,
   Grid,
   GridItem,
   Heading,
@@ -15,6 +16,8 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Spinner,
+  Text,
   Tooltip,
   useDisclosure,
   useToast,
@@ -27,15 +30,29 @@ import { Link, useNavigate } from "react-router-dom";
 import { UniversalContext } from "../../App";
 import { ColorModeSwitcher } from "../../ColorModeSwitcher";
 import axios from "axios";
+import { BiSync, BiUpload } from "react-icons/bi";
 
 const AdminProfile = () => {
   // use context for auth context
-  const { isLoggedin, setIsLoggedin, orgData } = useContext(UniversalContext);
+  const { isLoggedin, setIsLoggedin, orgData, isModified, setIsModified } =
+    useContext(UniversalContext);
 
   // for handling the change password modal
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isPasswordOpen,
+    onOpen: onPasswordOpen,
+    onClose: onPasswordClose,
+  } = useDisclosure();
+  const {
+    isOpen: isPhotoOpen,
+    onOpen: onPhotoOpen,
+    onClose: onPhotoClose,
+  } = useDisclosure();
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
+
+  // for handling misclick on modal
+  const [isBtnClicked, setIsBtnClicked] = useState(false);
 
   // using toast
   const toast = useToast();
@@ -50,8 +67,55 @@ const AdminProfile = () => {
   // for handling the change password
   const [newPassword, setNewPassword] = useState("");
 
+  // for handling the loading spinner
+  const [loading, setLoading] = useState({
+    password: false,
+    profilePhoto: false,
+  });
+
+  // for storing the uploaded image
+  const [uploadedPhoto, setUploadedPhoto] = useState("");
+  const [imageURL, setImageURL] = useState("");
+
+  // function to handle the image upload
+  const getImage = (event) => {
+    event.preventDefault();
+    // getting the image
+    const image = event.target.files[0];
+
+    // if image exists then getting the url link of it
+    if (image) {
+      setUploadedPhoto(image);
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(image);
+      fileReader.addEventListener("load", function () {
+        setImageURL(this.result);
+      });
+    }
+  };
+
   // function for changing the account password
   const changePassword = async () => {
+    // if button already clicked
+    if (isBtnClicked) {
+      toast({
+        title: "Prohibited",
+        description: "Wait for operation to complete",
+        position: "top",
+        status: "warning",
+        duration: 3000,
+      });
+      return;
+    }
+
+    setIsBtnClicked(true);
+
+    // displaying the loader
+    setLoading({
+      password: true,
+      profilePhoto: false,
+    });
+
     // user cannot change the test account password
     if (orgData.email === "test@gmail.com") {
       toast({
@@ -61,6 +125,12 @@ const AdminProfile = () => {
         status: "warning",
         duration: 3000,
       });
+      // hiding the loader
+      setLoading({
+        password: true,
+        profilePhoto: false,
+      });
+      setIsBtnClicked(false);
       return;
     }
 
@@ -74,6 +144,12 @@ const AdminProfile = () => {
         status: "warning",
         duration: 3000,
       });
+      // hiding the loader
+      setLoading({
+        password: true,
+        profilePhoto: false,
+      });
+      setIsBtnClicked(false);
       return;
     }
 
@@ -95,6 +171,13 @@ const AdminProfile = () => {
       setIsLoggedin(false);
       localStorage.removeItem("isLoggedin");
       localStorage.removeItem("orgData");
+
+      // hiding the loader
+      setLoading({
+        password: true,
+        profilePhoto: false,
+      });
+      setIsBtnClicked(false);
     } catch (error) {
       toast({
         title: "Failed to update password",
@@ -103,6 +186,86 @@ const AdminProfile = () => {
         status: "error",
         duration: 3000,
       });
+      setIsBtnClicked(false);
+    }
+  };
+
+  const updateProfileImage = async () => {
+    // if button already clicked
+    if (isBtnClicked) {
+      toast({
+        title: "Prohibited",
+        description: "Wait for operation to complete",
+        position: "top",
+        status: "warning",
+        duration: 3000,
+      });
+      return;
+    }
+
+    setIsBtnClicked(true);
+
+    // displaying the loader
+    setLoading({
+      password: false,
+      profilePhoto: true,
+    });
+
+    try {
+      // creating the form data from existing data to send
+      const formData = new FormData();
+
+      // if photo exist
+      if (uploadedPhoto) {
+        formData.append("photo", uploadedPhoto);
+        // creating the new user account
+        const res = await axios({
+          method: "patch",
+          url: "/changeuserimage",
+          data: formData,
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        toast({
+          title: "Profile picture updated successfully",
+          position: "top",
+          status: "success",
+          duration: 3000,
+        });
+
+        // for fetching the original data again
+        setIsModified(!isModified);
+
+        uploadedPhoto = "";
+      } else {
+        toast({
+          title: "Select a picture first",
+          position: "top",
+          status: "warning",
+          duration: 3000,
+        });
+      }
+
+      setLoading({
+        password: false,
+        profilePhoto: false,
+      });
+
+      setIsBtnClicked(false);
+    } catch (error) {
+      toast({
+        title: "Failed to update profile picture",
+        position: "top",
+        status: "error",
+        duration: 3000,
+      });
+
+      setLoading({
+        password: false,
+        profilePhoto: false,
+      });
+
+      setIsBtnClicked(false);
     }
   };
 
@@ -175,14 +338,21 @@ const AdminProfile = () => {
           <GridItem>{orgData.contact.length}</GridItem>
         </Grid>
 
-        {/* displaying the buttons for editing the profile and  */}
+        {/* displaying the buttons for editing the profile details */}
         <VStack>
           <HStack>
-            <Button>Change Picture</Button>
             <Button
               onClick={() => {
                 setOverlay(<Overlay />);
-                onOpen();
+                onPhotoOpen();
+              }}
+            >
+              Change Picture
+            </Button>
+            <Button
+              onClick={() => {
+                setOverlay(<Overlay />);
+                onPasswordOpen();
               }}
             >
               Change Password
@@ -192,12 +362,12 @@ const AdminProfile = () => {
         </VStack>
       </VStack>
 
-      {/* for handling the password change */}
+      {/* modal for changing the password */}
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
+        isOpen={isPasswordOpen}
+        onClose={onPasswordClose}
         size="sm"
       >
         {overlay}
@@ -219,10 +389,129 @@ const AdminProfile = () => {
             <Button onClick={changePassword} colorScheme="blue" mr={3} w="full">
               Update
             </Button>
-            <Button w="full" onClick={onClose}>
+            <Button w="full" onClick={onPasswordClose}>
               Cancel
             </Button>
           </ModalFooter>
+
+          {loading.password && (
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="green.100"
+              color="green.500"
+              size="xl"
+              pos="absolute"
+              left="45%"
+              top="35%"
+            />
+          )}
+        </ModalContent>
+      </Modal>
+
+      {/* modal for changing the profile image */}
+      <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isPhotoOpen}
+        onClose={onPhotoClose}
+        size="sm"
+      >
+        {overlay}
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Change your profile photo</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody p={0} w="150px" m="auto">
+            <FormControl
+              w="150px"
+              h="150px"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              border="4px solid #D1D5DB"
+              borderRadius="50%"
+              spacing={0}
+              cursor="pointer"
+              _hover={{
+                backgroundColor: "#D1D5DB",
+                color: "rgba(228, 149, 1, 0.97)",
+              }}
+              transition="all 0.2s ease-in-out"
+            >
+              <FormLabel
+                htmlFor="chooseImage"
+                cursor="pointer"
+                ml="12px"
+                mt="8px"
+                borderRadius="50%"
+              >
+                <VStack
+                  spacing="0"
+                  w="150px"
+                  h="150px"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  {imageURL ? (
+                    <Image
+                      src={imageURL}
+                      h="100%"
+                      w="100%"
+                      objectFit="inherit"
+                      objectPosition="center"
+                      borderRadius="full"
+                      alt="uploaded image"
+                    />
+                  ) : (
+                    <VStack spacing={0}>
+                      <BiUpload fontSize="24px" />
+                      <Text fontSize="13px" fontWeight="700">
+                        Upload
+                      </Text>
+                    </VStack>
+                  )}
+                </VStack>
+              </FormLabel>
+              <Input
+                type="file"
+                variant="unstyled"
+                accept=".jpg, .jpeg, .png"
+                capture="user"
+                id="chooseImage"
+                onChange={getImage}
+                display="none"
+              ></Input>
+            </FormControl>
+          </ModalBody>
+
+          <ModalFooter w="full" px={2}>
+            <Button
+              onClick={updateProfileImage}
+              colorScheme="blue"
+              mr={3}
+              w="full"
+            >
+              Update
+            </Button>
+            <Button w="full" onClick={onPhotoClose}>
+              Cancel
+            </Button>
+          </ModalFooter>
+
+          {loading.profilePhoto && (
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="green.100"
+              color="green.500"
+              size="xl"
+              pos="absolute"
+              left="45%"
+              top="35%"
+            />
+          )}
         </ModalContent>
       </Modal>
     </Layout>

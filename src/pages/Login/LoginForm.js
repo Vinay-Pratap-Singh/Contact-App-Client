@@ -26,8 +26,7 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
 
   // getting the auth context
-  const { isLoggedin, setIsLoggedin, orgData, setOrgData } =
-    useContext(UniversalContext);
+  const { isLoggedin, setIsLoggedin } = useContext(UniversalContext);
 
   // function to handle the input
   const handleInput = (event) => {
@@ -163,15 +162,16 @@ const LoginForm = () => {
               ></Input>
             </FormControl>
 
-            <HStack>
+            <HStack w="full">
               <Button
                 onClick={() =>
                   setData({ email: "test@gmail.com", password: "Test@123" })
                 }
+                w="full"
               >
                 Use Test Credential
               </Button>
-              <Button type="submit" onClick={login}>
+              <Button w="full" type="submit" onClick={login}>
                 Login
               </Button>
             </HStack>

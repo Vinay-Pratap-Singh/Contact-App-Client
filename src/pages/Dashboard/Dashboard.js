@@ -100,7 +100,6 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get("/dashboard");
-
         // if success is false
         if (!res.data.success) {
           navigator("/login");
@@ -117,6 +116,10 @@ const Dashboard = () => {
           status: "error",
           duration: 3000,
         });
+
+        setIsLoggedin(false);
+        localStorage.removeItem(isLoggedin);
+        localStorage.removeItem(orgData);
       }
     };
     fetchData();
