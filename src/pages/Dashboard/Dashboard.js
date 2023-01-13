@@ -31,6 +31,7 @@ const Dashboard = () => {
   } = useContext(UniversalContext);
 
   // state for storing the user contact
+
   const [contact, setContact] = useState(orgData.contact || []);
 
   // for storing the searched text
@@ -107,6 +108,7 @@ const Dashboard = () => {
         }
         // setting the original data
         setOrgData(res.data.data);
+        setContact(res.data.data.contact)
         localStorage.setItem("orgData", JSON.stringify(res.data.data));
       } catch (error) {
         toast({

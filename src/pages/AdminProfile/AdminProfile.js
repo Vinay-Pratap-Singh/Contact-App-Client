@@ -34,7 +34,7 @@ import { BiUpload } from "react-icons/bi";
 
 const AdminProfile = () => {
   // use context for auth context
-  const { isLoggedin, setIsLoggedin, orgData, isModified, setIsModified } =
+  const { isLoggedin, setIsLoggedin, orgData, setOrgData } =
     useContext(UniversalContext);
 
   // for handling the change password, change photo and delete account modal
@@ -245,15 +245,16 @@ const AdminProfile = () => {
           headers: { "Content-Type": "multipart/form-data" },
         });
 
+        // setting the uploaded image in state
+        orgData.photo = res.data.imageUrl;
+        setOrgData(orgData);
+
         toast({
           title: "Profile picture updated successfully",
           position: "top",
           status: "success",
           duration: 3000,
         });
-
-        // for fetching the original data again
-        setIsModified(!isModified);
 
         // deleting image preview and uploaded image
         setUploadedPhoto("");

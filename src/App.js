@@ -14,8 +14,7 @@ const App = () => {
   );
 
   // for holding the original data of a user
-  const [orgData, setOrgData] = useState(
-    JSON.parse(localStorage.getItem("orgData")) || {}
+  const [orgData, setOrgData] = useState( {}
   );
 
   // for checking that the user has modified the data or not
