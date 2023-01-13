@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import Login from "./pages/Login/LoginForm";
 import Signup from "./pages/Signup/SignUpForm";
 import Profile from "./pages/AdminProfile/AdminProfile";
+import NewContact from "./pages/NewContact/NewContact";
 import { createContext, useEffect, useState } from "react";
 
 // context for avoiding prop drilling
@@ -14,8 +15,7 @@ const App = () => {
   );
 
   // for holding the original data of a user
-  const [orgData, setOrgData] = useState( {}
-  );
+  const [orgData, setOrgData] = useState(localStorage.getItem("orgData") || {});
 
   // for checking that the user has modified the data or not
   const [isModified, setIsModified] = useState(false);
@@ -43,6 +43,7 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/newcontact" element={<NewContact />} />
       </Routes>
     </UniversalContext.Provider>
   );

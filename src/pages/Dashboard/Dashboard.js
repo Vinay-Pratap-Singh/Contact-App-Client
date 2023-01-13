@@ -1,6 +1,7 @@
 import Layout from "../../Layout/Layout";
 import { AiOutlineMenu, AiOutlineLogout, AiOutlinePlus } from "react-icons/ai";
 import {
+  Box,
   Button,
   HStack,
   Input,
@@ -15,6 +16,7 @@ import { Link, useFetcher, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { UniversalContext } from "../../App";
 import axios from "axios";
+import AddContact from "../../components/AddContact/AddContact";
 
 const Dashboard = () => {
   // for handling the loading spinner
@@ -108,7 +110,7 @@ const Dashboard = () => {
         }
         // setting the original data
         setOrgData(res.data.data);
-        setContact(res.data.data.contact)
+        setContact(res.data.data.contact);
         localStorage.setItem("orgData", JSON.stringify(res.data.data));
       } catch (error) {
         toast({
@@ -206,6 +208,10 @@ const Dashboard = () => {
                 );
               })}
           </VStack>
+
+          <Box pos="absolute" right={8} bottom={6}>
+            <AddContact />
+          </Box>
         </VStack>
       )}
     </Layout>
