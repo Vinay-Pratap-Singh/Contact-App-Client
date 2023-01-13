@@ -111,7 +111,7 @@ const Dashboard = () => {
       } catch (error) {
         toast({
           title: "Failed to load contact",
-          description:"Refresh page or login again after logout",
+          description: "Refresh page or login again after logout",
           position: "top",
           status: "error",
           duration: 3000,
@@ -151,10 +151,7 @@ const Dashboard = () => {
             <Tooltip hasArrow label="User Profile">
               <Button>
                 <Link to="/profile">
-                  <AiOutlineMenu
-                    fontSize="25px"
-                    cursor="pointer"
-                  />
+                  <AiOutlineMenu fontSize="25px" cursor="pointer" />
                 </Link>
               </Button>
             </Tooltip>

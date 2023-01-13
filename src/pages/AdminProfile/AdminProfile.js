@@ -30,24 +30,32 @@ import { Link, useNavigate } from "react-router-dom";
 import { UniversalContext } from "../../App";
 import { ColorModeSwitcher } from "../../ColorModeSwitcher";
 import axios from "axios";
-import { BiSync, BiUpload } from "react-icons/bi";
+import { BiUpload } from "react-icons/bi";
 
 const AdminProfile = () => {
   // use context for auth context
   const { isLoggedin, setIsLoggedin, orgData, isModified, setIsModified } =
     useContext(UniversalContext);
 
-  // for handling the change password modal
+  // for handling the change password, change photo and delete account modal
   const {
     isOpen: isPasswordOpen,
     onOpen: onPasswordOpen,
     onClose: onPasswordClose,
   } = useDisclosure();
+
   const {
     isOpen: isPhotoOpen,
     onOpen: onPhotoOpen,
     onClose: onPhotoClose,
   } = useDisclosure();
+
+  const {
+    isOpen: isDeleteOpen,
+    onOpen: onDeleteOpen,
+    onClose: onDeleteClose,
+  } = useDisclosure();
+
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
 
@@ -71,6 +79,7 @@ const AdminProfile = () => {
   const [loading, setLoading] = useState({
     password: false,
     profilePhoto: false,
+    deleteAccount: false,
   });
 
   // for storing the uploaded image
@@ -96,6 +105,18 @@ const AdminProfile = () => {
 
   // function for changing the account password
   const changePassword = async () => {
+    // user cannot change the test account password
+    if (orgData.email === "test@gmail.com") {
+      toast({
+        title: "Prohibited",
+        description: "Cannot change password of test account",
+        position: "top",
+        status: "warning",
+        duration: 3000,
+      });
+      return;
+    }
+
     // if button already clicked
     if (isBtnClicked) {
       toast({
@@ -114,25 +135,8 @@ const AdminProfile = () => {
     setLoading({
       password: true,
       profilePhoto: false,
+      deleteAccount: false,
     });
-
-    // user cannot change the test account password
-    if (orgData.email === "test@gmail.com") {
-      toast({
-        title: "Prohibited",
-        description: "Cannot change password of test account",
-        position: "top",
-        status: "warning",
-        duration: 3000,
-      });
-      // hiding the loader
-      setLoading({
-        password: true,
-        profilePhoto: false,
-      });
-      setIsBtnClicked(false);
-      return;
-    }
 
     // validating the password
     if (!newPassword.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/)) {
@@ -148,6 +152,7 @@ const AdminProfile = () => {
       setLoading({
         password: true,
         profilePhoto: false,
+        deleteAccount: false,
       });
       setIsBtnClicked(false);
       return;
@@ -176,6 +181,7 @@ const AdminProfile = () => {
       setLoading({
         password: true,
         profilePhoto: false,
+        deleteAccount: false,
       });
       setIsBtnClicked(false);
     } catch (error) {
@@ -191,6 +197,18 @@ const AdminProfile = () => {
   };
 
   const updateProfileImage = async () => {
+    // profile image can not be changed for demo account
+    if (orgData.email === "test@gmail.com") {
+      toast({
+        title: "Prohibited",
+        description: "Cannot change profile image of demo account",
+        position: "top",
+        status: "warning",
+        duration: 3000,
+      });
+      return;
+    }
+
     // if button already clicked
     if (isBtnClicked) {
       toast({
@@ -209,6 +227,7 @@ const AdminProfile = () => {
     setLoading({
       password: false,
       profilePhoto: true,
+      deleteAccount: false,
     });
 
     try {
@@ -236,7 +255,9 @@ const AdminProfile = () => {
         // for fetching the original data again
         setIsModified(!isModified);
 
-        uploadedPhoto = "";
+        // deleting image preview and uploaded image
+        setUploadedPhoto("");
+        setImageURL("");
       } else {
         toast({
           title: "Select a picture first",
@@ -249,6 +270,7 @@ const AdminProfile = () => {
       setLoading({
         password: false,
         profilePhoto: false,
+        deleteAccount: false,
       });
 
       setIsBtnClicked(false);
@@ -263,8 +285,77 @@ const AdminProfile = () => {
       setLoading({
         password: false,
         profilePhoto: false,
+        deleteAccount: false,
       });
 
+      setIsBtnClicked(false);
+    }
+  };
+
+  const deleteAccount = async() => {
+    // user cannot change the test account password
+    if (orgData.email === "test@gmail.com") {
+      toast({
+        title: "Prohibited",
+        description: "Cannot delete demo account",
+        position: "top",
+        status: "warning",
+        duration: 3000,
+      });
+      return;
+    }
+
+    // if button already clicked
+    if (isBtnClicked) {
+      toast({
+        title: "Prohibited",
+        description: "Wait for operation to complete",
+        position: "top",
+        status: "warning",
+        duration: 3000,
+      });
+      return;
+    }
+
+    setIsBtnClicked(true);
+
+    // displaying the loader
+    setLoading({
+      password: false,
+      profilePhoto: false,
+      deleteAccount: true,
+    });
+
+    try {
+      const res = await axios.delete("/deleteuser");
+
+      toast({
+        title: "Account Deleted Successfully",
+        position: "top",
+        status: "success",
+        duration: 3000,
+      });
+
+      // changing the login state of user
+      setIsLoggedin(false);
+      localStorage.removeItem("isLoggedin");
+      localStorage.removeItem("orgData");
+
+      // hiding the loader
+      setLoading({
+        password: false,
+        profilePhoto: false,
+        deleteAccount: false,
+      });
+      setIsBtnClicked(false);
+    } catch (error) {
+      toast({
+        title: "Failed to delete account",
+        description: error.response.data.message,
+        position: "top",
+        status: "error",
+        duration: 3000,
+      });
       setIsBtnClicked(false);
     }
   };
@@ -319,7 +410,7 @@ const AdminProfile = () => {
           justifyContent="center"
         >
           {profileImage ? (
-            <Image borderRadius="50%" src={profileImage} />
+            <Image w={40} h={40} borderRadius="50%" src={profileImage} />
           ) : (
             <FaUser fontSize={96} color="#D1D5DB" />
           )}
@@ -358,7 +449,15 @@ const AdminProfile = () => {
               Change Password
             </Button>
           </HStack>
-          <Button w="full">Delete Account</Button>
+          <Button
+            onClick={() => {
+              setOverlay(<Overlay />);
+              onDeleteOpen();
+            }}
+            w="full"
+          >
+            Delete Account
+          </Button>
         </VStack>
       </VStack>
 
@@ -501,6 +600,44 @@ const AdminProfile = () => {
           </ModalFooter>
 
           {loading.profilePhoto && (
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="green.100"
+              color="green.500"
+              size="xl"
+              pos="absolute"
+              left="45%"
+              top="35%"
+            />
+          )}
+        </ModalContent>
+      </Modal>
+
+      {/* modal for asking user to delete account */}
+      <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isDeleteOpen}
+        onClose={onDeleteClose}
+        size="sm"
+      >
+        {overlay}
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Are you sure you want to delete account?</ModalHeader>
+          <ModalCloseButton />
+
+          <ModalFooter w="full" px={2}>
+            <Button onClick={deleteAccount} colorScheme="red" mr={3} w="full">
+              Delete Account
+            </Button>
+            <Button w="full" onClick={onDeleteClose}>
+              Cancel
+            </Button>
+          </ModalFooter>
+
+          {loading.deleteAccount && (
             <Spinner
               thickness="4px"
               speed="0.65s"
