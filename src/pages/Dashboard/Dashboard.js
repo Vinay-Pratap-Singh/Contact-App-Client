@@ -203,6 +203,7 @@ const Dashboard = () => {
                     phone={element.phone}
                     photo={element.photo}
                     bgColor={element.bgColor}
+                    id={element._id}
                     key={element._id}
                   />
                 );

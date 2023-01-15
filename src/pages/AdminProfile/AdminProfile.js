@@ -294,7 +294,7 @@ const AdminProfile = () => {
   };
 
   const deleteAccount = async() => {
-    // user cannot change the test account password
+    // user cannot delete the test account
     if (orgData.email === "test@gmail.com") {
       toast({
         title: "Prohibited",
