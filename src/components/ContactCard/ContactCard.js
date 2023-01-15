@@ -18,10 +18,13 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import { UniversalContext } from "../../App";
 
 const ContactCard = (props) => {
   let { name, phone, photo, bgColor, id } = props;
+  // for sendind data to update page
+  let contactDetails = { name, phone, photo, bgColor, id };
   let letter;
   // for handling contact image
   if (!photo) {
@@ -151,8 +154,12 @@ const ContactCard = (props) => {
       {/* button for update and delete contact */}
       {showBtn && (
         <HStack w="full" px={1} pb={1}>
-          <Button w="full">Update</Button>
-          <Button w="full" onClick={onOpen}>
+          <Box w="50%">
+            <Link to="/updatecontact" state={{ contactDetails }}>
+              <Button w="100%">Update</Button>
+            </Link>
+          </Box>
+          <Button w="50%" onClick={onOpen}>
             Delete
           </Button>
         </HStack>

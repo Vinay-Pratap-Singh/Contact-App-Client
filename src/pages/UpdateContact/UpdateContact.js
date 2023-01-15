@@ -14,13 +14,17 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { BiUpload } from "react-icons/bi";
 import { FaArrowLeft } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UniversalContext } from "../../App";
 import Layout from "../../Layout/Layout";
 
-const NewContact = () => {
+const UpdateContact = () => {
   // getting login state from context
   const { isLoggedin } = useContext(UniversalContext);
+
+  // getting the data from the contact card
+  const location = useLocation();
+  const { contactDetails } = location.state;
 
   // for redirecting the page
   const navigator = useNavigate();
@@ -39,9 +43,9 @@ const NewContact = () => {
 
   // for storing the input fields data
   const [data, setData] = useState({
-    name: "",
-    phone: "",
-    photo: "",
+    name: contactDetails.name,
+    phone: contactDetails.phone,
+    photo: contactDetails.photo,
   });
 
   // function to handle the image upload
@@ -70,15 +74,15 @@ const NewContact = () => {
     });
   };
 
-  // function for creating the new contact
-  const createNewContact = async () => {
+  // function for updating the contact
+  const updateContact = async () => {
     // displaying the loader
     setLoading(true);
 
     // checking the empty fields
     if (!data.name || !data.phone) {
       toast({
-        title: "Failed to create new contact",
+        title: "Failed to update contact",
         description: "Please fill all the required fileds",
         position: "top",
         status: "warning",
@@ -89,7 +93,7 @@ const NewContact = () => {
     }
 
     // validating the phone number
-    if (!data.phone.match(/^\d{10}$/)) {
+    if (!String(data.phone).match(/^\d{10}$/)) {
       toast({
         title: "Invalid Phone Number",
         description: "Enter a valid phone number of 10 digits",
@@ -105,6 +109,7 @@ const NewContact = () => {
     try {
       // creating the form data from existing data to send
       const formData = new FormData();
+      formData.append("updateId", contactDetails.id);
       formData.append("name", data.name);
       formData.append("phone", data.phone);
 
@@ -115,8 +120,8 @@ const NewContact = () => {
 
       // creating the new user account
       const res = await axios({
-        method: "post",
-        url: "/addcontact",
+        method: "patch",
+        url: "/updatecontact",
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -278,11 +283,13 @@ const NewContact = () => {
             ></Input>
           </FormControl>
 
-          <Button w="full" onClick={createNewContact}>Create New Contact</Button>
+          <Button w="full" onClick={updateContact}>
+            Update Contact
+          </Button>
         </VStack>
       )}
     </Layout>
   );
 };
 
-export default NewContact;
+export default UpdateContact;

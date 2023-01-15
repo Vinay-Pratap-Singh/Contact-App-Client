@@ -5,6 +5,7 @@ import Signup from "./pages/Signup/SignUpForm";
 import Profile from "./pages/AdminProfile/AdminProfile";
 import NewContact from "./pages/NewContact/NewContact";
 import { createContext, useEffect, useState } from "react";
+import UpdateContact from "./pages/UpdateContact/UpdateContact";
 
 // context for avoiding prop drilling
 export const UniversalContext = createContext();
@@ -44,6 +45,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/newcontact" element={<NewContact />} />
+        <Route path="/updatecontact" element={<UpdateContact />} />        
       </Routes>
     </UniversalContext.Provider>
   );
