@@ -101,6 +101,11 @@ const Dashboard = () => {
   useEffect(() => {
     // function for getting the data
     const fetchData = async () => {
+      if (!isLoggedin) {
+        navigator("/login");
+        return;
+      }
+
       try {
         const res = await axios.get("/dashboard");
         // if success is false

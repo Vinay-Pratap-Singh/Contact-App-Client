@@ -8,6 +8,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { UniversalContext } from "../../App";
+import { ColorModeSwitcher } from "../../ColorModeSwitcher";
 import Layout from "../../Layout/Layout";
 
 const LoginForm = () => {
@@ -128,9 +129,11 @@ const LoginForm = () => {
           justifyContent="center"
           h="full"
           p="10px"
-          color="gray.700"
           gap={4}
         >
+          {/* adding the color mode switcher for dark and light mode */}
+          <ColorModeSwitcher pos="absolute" right={2} top="8px" />
+
           <Heading fontSize="25px">Login Form</Heading>
 
           <VStack w="full" gap={4}>
@@ -138,7 +141,7 @@ const LoginForm = () => {
               <FormLabel htmlFor="email">Email</FormLabel>
               <Input
                 p={2}
-                fontWeight="medium"
+                fontWeight="400"
                 type="email"
                 placeholder="Enter your email"
                 variant="unstyled"
@@ -154,9 +157,8 @@ const LoginForm = () => {
               <FormLabel htmlFor="password">Password</FormLabel>
               <InputGroup>
                 <Input
-                  px={2}
-                  py={1}
-                  fontWeight="medium"
+                  p={2}
+                  fontWeight="400"
                   type={show ? "text" : "password"}
                   variant="unstyled"
                   border="1px solid black"

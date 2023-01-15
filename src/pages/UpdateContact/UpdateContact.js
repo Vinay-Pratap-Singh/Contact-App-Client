@@ -24,7 +24,7 @@ const UpdateContact = () => {
 
   // getting the data from the contact card
   const location = useLocation();
-  const { contactDetails } = location.state;
+  const { contactDetails } = location.state || {};
 
   // for redirecting the page
   const navigator = useNavigate();
@@ -43,9 +43,9 @@ const UpdateContact = () => {
 
   // for storing the input fields data
   const [data, setData] = useState({
-    name: contactDetails.name,
-    phone: contactDetails.phone,
-    photo: contactDetails.photo,
+    name: contactDetails?.name,
+    phone: contactDetails?.phone,
+    photo: contactDetails?.photo,
   });
 
   // function to handle the image upload

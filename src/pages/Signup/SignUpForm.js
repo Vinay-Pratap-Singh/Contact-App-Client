@@ -5,7 +5,7 @@ import { Box, Heading, Text, VStack } from "@chakra-ui/layout";
 import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../Layout/Layout";
 import { BiUpload } from "react-icons/bi";
-import { Image, Spinner, useToast } from "@chakra-ui/react";
+import { Image, Spinner, Tooltip, useToast } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import axios from "axios";
@@ -200,74 +200,75 @@ const SignUpForm = () => {
           justifyContent="center"
           h="full"
           spacing={0}
-          color="gray.700"
           gap={4}
         >
           <Heading fontSize="25px">Signup Form</Heading>
 
           <VStack w="full">
             {/* for uploading the image */}
-            <FormControl
-              w="80px"
-              h="80px"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              border="4px solid #D1D5DB"
-              borderRadius="50%"
-              spacing={0}
-              cursor="pointer"
-              _hover={{
-                backgroundColor: "#D1D5DB",
-                color: "rgba(228, 149, 1, 0.97)",
-              }}
-              transition="all 0.2s ease-in-out"
-            >
-              <FormLabel
-                htmlFor="chooseImage"
-                cursor="pointer"
-                ml="12px"
-                mt="8px"
+            <Tooltip hasArrow label="Optional">
+              <FormControl
+                w="80px"
+                h="80px"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                border="2px solid #D1D5DB"
                 borderRadius="50%"
+                spacing={0}
+                cursor="pointer"
+                _hover={{
+                  backgroundColor: "#D1D5DB",
+                  color: "rgba(228, 149, 1, 0.97)",
+                }}
+                transition="all 0.2s ease-in-out"
               >
-                <VStack
-                  spacing="0"
-                  w="75px"
-                  h="75px"
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
+                <FormLabel
+                  htmlFor="chooseImage"
+                  cursor="pointer"
+                  ml="12px"
+                  mt="8px"
+                  borderRadius="50%"
                 >
-                  {imageURL ? (
-                    <Image
-                      src={imageURL}
-                      h="100%"
-                      w="100%"
-                      objectFit="inherit"
-                      objectPosition="center"
-                      borderRadius="full"
-                      alt="uploaded image"
-                    />
-                  ) : (
-                    <VStack spacing={0}>
-                      <BiUpload fontSize="24px" />
-                      <Text fontSize="13px" fontWeight="700">
-                        Upload
-                      </Text>
-                    </VStack>
-                  )}
-                </VStack>
-              </FormLabel>
-              <Input
-                type="file"
-                variant="unstyled"
-                accept=".jpg, .jpeg, .png"
-                capture="user"
-                id="chooseImage"
-                onChange={getImage}
-                display="none"
-              ></Input>
-            </FormControl>
+                  <VStack
+                    spacing="0"
+                    w="75px"
+                    h="75px"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    {imageURL ? (
+                      <Image
+                        src={imageURL}
+                        h="100%"
+                        w="100%"
+                        objectFit="inherit"
+                        objectPosition="center"
+                        borderRadius="full"
+                        alt="uploaded image"
+                      />
+                    ) : (
+                      <VStack spacing={0}>
+                        <BiUpload fontSize="24px" />
+                        <Text fontSize="13px" fontWeight="700">
+                          Upload
+                        </Text>
+                      </VStack>
+                    )}
+                  </VStack>
+                </FormLabel>
+                <Input
+                  type="file"
+                  variant="unstyled"
+                  accept=".jpg, .jpeg, .png"
+                  capture="user"
+                  id="chooseImage"
+                  onChange={getImage}
+                  display="none"
+                ></Input>
+              </FormControl>
+            </Tooltip>
 
             <FormControl isRequired>
               <FormLabel htmlFor="name" fontSize="14px">
@@ -276,7 +277,7 @@ const SignUpForm = () => {
               <Input
                 px={2}
                 py={1}
-                fontWeight="medium"
+                fontWeight="400"
                 type="text"
                 variant="unstyled"
                 id="name"
@@ -295,7 +296,7 @@ const SignUpForm = () => {
               <Input
                 px={2}
                 py={1}
-                fontWeight="medium"
+                fontWeight="400"
                 type="email"
                 variant="unstyled"
                 id="email"
@@ -314,7 +315,7 @@ const SignUpForm = () => {
               <Input
                 px={2}
                 py={1}
-                fontWeight="medium"
+                fontWeight="400"
                 type="number"
                 variant="unstyled"
                 id="phone"
@@ -334,7 +335,7 @@ const SignUpForm = () => {
                 <Input
                   px={2}
                   py={1}
-                  fontWeight="medium"
+                  fontWeight="400"
                   type={show ? "text" : "password"}
                   variant="unstyled"
                   id="password"

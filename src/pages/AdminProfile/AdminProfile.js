@@ -517,16 +517,16 @@ const AdminProfile = () => {
         </Box>
 
         {/* displaying the user name */}
-        <Heading fontSize={20}>{orgData.name.toUpperCase()}</Heading>
+        <Heading fontSize={20}>{orgData.name?.toUpperCase()}</Heading>
 
         {/* displaying the user's other profile details */}
-        <Grid templateColumns="repeat(2, 1fr)">
+        <Grid templateColumns="repeat(2, 1fr)" columnGap={2} fontWeight="500">
           <GridItem>Phone</GridItem>
           <GridItem>{orgData.phone}</GridItem>
           <GridItem>Email</GridItem>
           <GridItem>{orgData.email}</GridItem>
           <GridItem>Total Contacts</GridItem>
-          <GridItem>{orgData.contact.length}</GridItem>
+          <GridItem>{orgData.contact?.length}</GridItem>
         </Grid>
 
         {/* displaying the buttons for editing the profile details */}
