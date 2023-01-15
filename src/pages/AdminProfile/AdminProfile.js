@@ -37,7 +37,7 @@ const AdminProfile = () => {
   const { isLoggedin, setIsLoggedin, orgData, setOrgData } =
     useContext(UniversalContext);
 
-  // for handling the change password, change photo and delete account modal
+  // for handling the change password, change photo, delete account and remove profile picture modal
   const {
     isOpen: isPasswordOpen,
     onOpen: onPasswordOpen,
@@ -54,6 +54,12 @@ const AdminProfile = () => {
     isOpen: isDeleteOpen,
     onOpen: onDeleteOpen,
     onClose: onDeleteClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isRemoveOpen,
+    onOpen: onRemoveOpen,
+    onClose: onRemoveClose,
   } = useDisclosure();
 
   const initialRef = React.useRef(null);
@@ -80,6 +86,7 @@ const AdminProfile = () => {
     password: false,
     profilePhoto: false,
     deleteAccount: false,
+    deleteImage: false,
   });
 
   // for storing the uploaded image
@@ -136,6 +143,7 @@ const AdminProfile = () => {
       password: true,
       profilePhoto: false,
       deleteAccount: false,
+      deleteImage: false,
     });
 
     // validating the password
@@ -153,6 +161,7 @@ const AdminProfile = () => {
         password: true,
         profilePhoto: false,
         deleteAccount: false,
+        deleteImage: false,
       });
       setIsBtnClicked(false);
       return;
@@ -182,6 +191,7 @@ const AdminProfile = () => {
         password: true,
         profilePhoto: false,
         deleteAccount: false,
+        deleteImage: false,
       });
       setIsBtnClicked(false);
     } catch (error) {
@@ -228,6 +238,7 @@ const AdminProfile = () => {
       password: false,
       profilePhoto: true,
       deleteAccount: false,
+      deleteImage: false,
     });
 
     try {
@@ -272,6 +283,7 @@ const AdminProfile = () => {
         password: false,
         profilePhoto: false,
         deleteAccount: false,
+        deleteImage: false,
       });
 
       setIsBtnClicked(false);
@@ -287,13 +299,14 @@ const AdminProfile = () => {
         password: false,
         profilePhoto: false,
         deleteAccount: false,
+        deleteImage: false,
       });
 
       setIsBtnClicked(false);
     }
   };
 
-  const deleteAccount = async() => {
+  const deleteAccount = async () => {
     // user cannot delete the test account
     if (orgData.email === "test@gmail.com") {
       toast({
@@ -325,6 +338,7 @@ const AdminProfile = () => {
       password: false,
       profilePhoto: false,
       deleteAccount: true,
+      deleteImage: false,
     });
 
     try {
@@ -347,6 +361,7 @@ const AdminProfile = () => {
         password: false,
         profilePhoto: false,
         deleteAccount: false,
+        deleteImage: false,
       });
       setIsBtnClicked(false);
     } catch (error) {
@@ -356,6 +371,83 @@ const AdminProfile = () => {
         position: "top",
         status: "error",
         duration: 3000,
+      });
+      setIsBtnClicked(false);
+    }
+  };
+
+  // function for deleting the profile picture
+  const removeProfilePicture = async () => {
+    // user cannot delete the test account
+    if (orgData.email === "test@gmail.com") {
+      toast({
+        title: "Prohibited",
+        description: "Cannot change profile of demo account",
+        position: "top",
+        status: "warning",
+        duration: 3000,
+      });
+      return;
+    }
+
+    // if button already clicked
+    if (isBtnClicked) {
+      toast({
+        title: "Prohibited",
+        description: "Wait for operation to complete",
+        position: "top",
+        status: "warning",
+        duration: 3000,
+      });
+      return;
+    }
+
+    setIsBtnClicked(true);
+
+    // displaying the loader
+    setLoading({
+      password: false,
+      profilePhoto: false,
+      deleteAccount: true,
+      deleteImage: false,
+    });
+
+    try {
+      const res = await axios.post("/removeprofile", { id: orgData._id });
+
+      toast({
+        title: "Profile picture removed successfully",
+        position: "top",
+        status: "success",
+        duration: 3000,
+      });
+
+      // changing the profile data in state
+      orgData.photo = "";
+      setOrgData(orgData);
+
+      // hiding the loader
+      setLoading({
+        password: false,
+        profilePhoto: false,
+        deleteAccount: false,
+        deleteImage: false,
+      });
+      setIsBtnClicked(false);
+    } catch (error) {
+      toast({
+        title: "Failed to remove profile picture",
+        description: error.response.data.message,
+        position: "top",
+        status: "error",
+        duration: 3000,
+      });
+      // hiding the loader
+      setLoading({
+        password: false,
+        profilePhoto: false,
+        deleteAccount: false,
+        deleteImage: false,
       });
       setIsBtnClicked(false);
     }
@@ -411,7 +503,14 @@ const AdminProfile = () => {
           justifyContent="center"
         >
           {profileImage ? (
-            <Image w={40} h={40} borderRadius="50%" src={profileImage} />
+            <Image
+              cursor="pointer"
+              w={40}
+              h={40}
+              onClick={() => onRemoveOpen()}
+              borderRadius="50%"
+              src={profileImage}
+            />
           ) : (
             <FaUser fontSize={96} color="#D1D5DB" />
           )}
@@ -634,6 +733,51 @@ const AdminProfile = () => {
               Delete Account
             </Button>
             <Button w="full" onClick={onDeleteClose}>
+              Cancel
+            </Button>
+          </ModalFooter>
+
+          {loading.deleteAccount && (
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="green.100"
+              color="green.500"
+              size="xl"
+              pos="absolute"
+              left="45%"
+              top="35%"
+            />
+          )}
+        </ModalContent>
+      </Modal>
+
+      {/* modal for asking user to remove profile picture */}
+      <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isRemoveOpen}
+        onClose={onRemoveClose}
+        size="sm"
+      >
+        {overlay}
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            Are you sure you want to remove profile picture?
+          </ModalHeader>
+          <ModalCloseButton />
+
+          <ModalFooter w="full" px={2}>
+            <Button
+              onClick={removeProfilePicture}
+              colorScheme="red"
+              mr={3}
+              w="full"
+            >
+              Remove Profile
+            </Button>
+            <Button w="full" onClick={onRemoveClose}>
               Cancel
             </Button>
           </ModalFooter>
