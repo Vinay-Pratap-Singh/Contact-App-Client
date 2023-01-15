@@ -1,10 +1,11 @@
 import { Button } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
-import { Input } from "@chakra-ui/input";
-import { Heading, HStack, Text, VStack } from "@chakra-ui/layout";
+import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
+import { Box, Heading, HStack, Text, VStack } from "@chakra-ui/layout";
 import { Spinner, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { UniversalContext } from "../../App";
 import Layout from "../../Layout/Layout";
@@ -24,6 +25,9 @@ const LoginForm = () => {
 
   // for handling the loading spinner
   const [loading, setLoading] = useState(false);
+
+  // for showing and hiding the password
+  const [show, setShow] = useState(false);
 
   // getting the auth context
   const { isLoggedin, setIsLoggedin } = useContext(UniversalContext);
@@ -148,18 +152,30 @@ const LoginForm = () => {
 
             <FormControl isRequired>
               <FormLabel htmlFor="password">Password</FormLabel>
-              <Input
-                p={2}
-                fontWeight="medium"
-                type="text"
-                variant="unstyled"
-                border="1px solid black"
-                id="password"
-                placeholder="Enter your password"
-                name="password"
-                value={data.password}
-                onChange={handleInput}
-              ></Input>
+              <InputGroup>
+                <Input
+                  px={2}
+                  py={1}
+                  fontWeight="medium"
+                  type={show ? "text" : "password"}
+                  variant="unstyled"
+                  border="1px solid black"
+                  id="password"
+                  placeholder="Enter your password"
+                  name="password"
+                  value={data.password}
+                  onChange={handleInput}
+                ></Input>
+                <InputRightElement>
+                  <Box
+                    onClick={() => setShow(!show)}
+                    cursor="pointer"
+                    fontSize="20px"
+                  >
+                    {show ? <AiFillEye /> : <AiFillEyeInvisible />}
+                  </Box>
+                </InputRightElement>
+              </InputGroup>
             </FormControl>
 
             <HStack w="full">

@@ -1,16 +1,14 @@
 import { Button } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
-import { Input } from "@chakra-ui/input";
-import { Heading, Text, VStack } from "@chakra-ui/layout";
+import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
+import { Box, Heading, Text, VStack } from "@chakra-ui/layout";
 import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../Layout/Layout";
 import { BiUpload } from "react-icons/bi";
 import { Image, Spinner, useToast } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import axios from "axios";
-
-// importing the css
-import "./SignUpForm.css";
 import { UniversalContext } from "../../App";
 
 const SignUpForm = () => {
@@ -31,6 +29,9 @@ const SignUpForm = () => {
 
   // stores the original uploaded image
   const [photo, setPhoto] = useState("");
+
+  // for showing and hiding the password
+  const [show, setShow] = useState(false);
 
   // storing the data entered by user
   const [data, setData] = useState({
@@ -204,7 +205,7 @@ const SignUpForm = () => {
         >
           <Heading fontSize="25px">Signup Form</Heading>
 
-          <VStack w="full" gap={2}>
+          <VStack w="full">
             {/* for uploading the image */}
             <FormControl
               w="80px"
@@ -268,68 +269,91 @@ const SignUpForm = () => {
               ></Input>
             </FormControl>
 
-            <FormControl isRequired pos="relative" border="1.5px solid black">
+            <FormControl isRequired>
+              <FormLabel htmlFor="name" fontSize="14px">
+                Name
+              </FormLabel>
               <Input
-                p={2}
+                px={2}
+                py={1}
                 fontWeight="medium"
                 type="text"
                 variant="unstyled"
                 id="name"
                 name="name"
+                placeholder="Enter your name"
+                border="1px solid black"
                 value={data.name}
                 onChange={handleChange}
               ></Input>
-              <FormLabel htmlFor="name" pos="absolute" top={2} left={2}>
-                Name
-              </FormLabel>
             </FormControl>
 
-            <FormControl isRequired pos="relative" border="1.5px solid black">
+            <FormControl isRequired>
+              <FormLabel htmlFor="email" fontSize="14px">
+                Email
+              </FormLabel>
               <Input
-                p={2}
+                px={2}
+                py={1}
                 fontWeight="medium"
                 type="email"
                 variant="unstyled"
                 id="email"
                 name="email"
+                placeholder="Enter your email"
+                border="1px solid black"
                 value={data.email}
                 onChange={handleChange}
               ></Input>
-              <FormLabel htmlFor="email" pos="absolute" top={2} left={2}>
-                Email
-              </FormLabel>
             </FormControl>
 
-            <FormControl isRequired pos="relative" border="1.5px solid black">
+            <FormControl isRequired>
+              <FormLabel htmlFor="phone" fontSize="14px">
+                Phone
+              </FormLabel>
               <Input
-                p={2}
+                px={2}
+                py={1}
                 fontWeight="medium"
                 type="number"
                 variant="unstyled"
                 id="phone"
                 name="phone"
+                placeholder="Enter your phone number"
+                border="1px solid black"
                 value={data.phone}
                 onChange={handleChange}
               ></Input>
-              <FormLabel htmlFor="phone" pos="absolute" top={2} left={2}>
-                Phone
-              </FormLabel>
             </FormControl>
 
-            <FormControl isRequired pos="relative" border="1.5px solid black">
-              <Input
-                p={2}
-                fontWeight="medium"
-                type="text"
-                variant="unstyled"
-                id="password"
-                name="password"
-                value={data.password}
-                onChange={handleChange}
-              ></Input>
-              <FormLabel htmlFor="password" pos="absolute" top={2} left={2}>
+            <FormControl isRequired>
+              <FormLabel htmlFor="password" fontSize="14px">
                 Password
               </FormLabel>
+              <InputGroup>
+                <Input
+                  px={2}
+                  py={1}
+                  fontWeight="medium"
+                  type={show ? "text" : "password"}
+                  variant="unstyled"
+                  id="password"
+                  name="password"
+                  placeholder="Create a password"
+                  border="1px solid black"
+                  value={data.password}
+                  onChange={handleChange}
+                ></Input>
+                <InputRightElement>
+                  <Box
+                    onClick={() => setShow(!show)}
+                    cursor="pointer"
+                    fontSize="20px"
+                  >
+                    {show ? <AiFillEye /> : <AiFillEyeInvisible />}
+                  </Box>
+                </InputRightElement>
+              </InputGroup>
             </FormControl>
 
             <Button

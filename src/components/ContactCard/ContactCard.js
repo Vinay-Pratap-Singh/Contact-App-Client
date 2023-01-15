@@ -23,7 +23,7 @@ import { UniversalContext } from "../../App";
 
 const ContactCard = (props) => {
   let { name, phone, photo, bgColor, id } = props;
-  // for sendind data to update page
+  // for sending data to update page
   let contactDetails = { name, phone, photo, bgColor, id };
   let letter;
   // for handling contact image
@@ -181,7 +181,7 @@ const ContactCard = (props) => {
 
           <ModalFooter w="full" px={2}>
             <Button onClick={deleteContact} colorScheme="red" mr={3} w="full">
-              Delete Account
+              Delete Contact
             </Button>
             <Button w="full" onClick={onClose}>
               Cancel
