@@ -102,7 +102,9 @@ const Dashboard = () => {
       }
 
       try {
-        const res = await axios.get(`${BASEURL}/dashboard`);
+        const res = await axios.get(`${BASEURL}/dashboard`, {
+          withCredentials: true,
+        });
         // if success is false
         if (!res.data.success) {
           navigator("/login");
