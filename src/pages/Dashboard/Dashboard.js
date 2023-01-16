@@ -1,5 +1,5 @@
 import Layout from "../../Layout/Layout";
-import { AiOutlineMenu, AiOutlineLogout, AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineLogout } from "react-icons/ai";
 import {
   Box,
   Button,
@@ -17,20 +17,15 @@ import { useContext, useEffect, useState } from "react";
 import { UniversalContext } from "../../App";
 import axios from "axios";
 import AddContact from "../../components/AddContact/AddContact";
+import { BASEURL } from "../../config";
 
 const Dashboard = () => {
   // for handling the loading spinner
   const [loading, setLoading] = useState(false);
 
   // getting items from context
-  const {
-    isLoggedin,
-    setIsLoggedin,
-    orgData,
-    setOrgData,
-    isModified,
-    setIsModified,
-  } = useContext(UniversalContext);
+  const { isLoggedin, setIsLoggedin, orgData, setOrgData, isModified } =
+    useContext(UniversalContext);
 
   // state for storing the user contact
 
@@ -51,7 +46,7 @@ const Dashboard = () => {
     setLoading(true);
 
     try {
-      await axios.get("/logout");
+      await axios.get(`${BASEURL}/logout`);
       toast({
         title: "Logout Successful",
         position: "top",
@@ -107,7 +102,7 @@ const Dashboard = () => {
       }
 
       try {
-        const res = await axios.get("/dashboard");
+        const res = await axios.get(`${BASEURL}/dashboard`);
         // if success is false
         if (!res.data.success) {
           navigator("/login");

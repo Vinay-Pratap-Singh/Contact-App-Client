@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { UniversalContext } from "../../App";
 import { ColorModeSwitcher } from "../../ColorModeSwitcher";
 import Layout from "../../Layout/Layout";
+import { BASEURL } from "../../config";
 
 const LoginForm = () => {
   // using the toast to display the feedback responses
@@ -73,10 +74,10 @@ const LoginForm = () => {
 
     // axios post request for log in
     try {
-      const res = await axios.post("/login", {
+      const res = await axios.post(`${BASEURL}/login`, {
         email: data.email,
         password: data.password,
-      });
+      },{withCredentials:true});
 
       // setting the auth to true
       setIsLoggedin(true);

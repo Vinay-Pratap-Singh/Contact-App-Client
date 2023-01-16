@@ -17,6 +17,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { UniversalContext } from "../../App";
 import Layout from "../../Layout/Layout";
+import { BASEURL } from "../../config";
 
 const NewContact = () => {
   // getting login state from context
@@ -116,7 +117,7 @@ const NewContact = () => {
       // creating the new user account
       const res = await axios({
         method: "post",
-        url: "/addcontact",
+        url: `${BASEURL}/addcontact`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -278,7 +279,9 @@ const NewContact = () => {
             ></Input>
           </FormControl>
 
-          <Button w="full" onClick={createNewContact}>Create New Contact</Button>
+          <Button w="full" onClick={createNewContact}>
+            Create New Contact
+          </Button>
         </VStack>
       )}
     </Layout>

@@ -31,6 +31,7 @@ import { UniversalContext } from "../../App";
 import { ColorModeSwitcher } from "../../ColorModeSwitcher";
 import axios from "axios";
 import { BiUpload } from "react-icons/bi";
+import { BASEURL } from "../../config";
 
 const AdminProfile = () => {
   // use context for auth context
@@ -169,7 +170,7 @@ const AdminProfile = () => {
 
     // changing the password if not a test account
     try {
-      const res = await axios.patch("/changepassword", {
+      const res = await axios.patch(`${BASEURL}/changepassword`, {
         password: newPassword,
       });
 
@@ -251,7 +252,7 @@ const AdminProfile = () => {
         // creating the new user account
         const res = await axios({
           method: "patch",
-          url: "/changeuserimage",
+          url: `${BASEURL}/changeuserimage`,
           data: formData,
           headers: { "Content-Type": "multipart/form-data" },
         });
@@ -342,7 +343,7 @@ const AdminProfile = () => {
     });
 
     try {
-      const res = await axios.delete("/deleteuser");
+      const res = await axios.delete(`${BASEURL}/deleteuser`);
 
       toast({
         title: "Account Deleted Successfully",
@@ -413,7 +414,9 @@ const AdminProfile = () => {
     });
 
     try {
-      const res = await axios.post("/removeprofile", { id: orgData._id });
+      const res = await axios.post(`${BASEURL}/removeprofile`, {
+        id: orgData._id,
+      });
 
       toast({
         title: "Profile picture removed successfully",

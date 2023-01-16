@@ -16,6 +16,7 @@ import { BiUpload } from "react-icons/bi";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UniversalContext } from "../../App";
+import { BASEURL } from "../../config";
 import Layout from "../../Layout/Layout";
 
 const UpdateContact = () => {
@@ -121,7 +122,7 @@ const UpdateContact = () => {
       // creating the new user account
       const res = await axios({
         method: "patch",
-        url: "/updatecontact",
+        url: `${BASEURL}/updatecontact`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });

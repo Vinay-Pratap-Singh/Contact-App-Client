@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import axios from "axios";
 import { UniversalContext } from "../../App";
+import { BASEURL } from "../../config";
 
 const SignUpForm = () => {
   // for handling the loading spinner
@@ -137,7 +138,7 @@ const SignUpForm = () => {
       // creating the new user account
       const res = await axios({
         method: "post",
-        url: "/signup",
+        url: `${BASEURL}/signup`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });
