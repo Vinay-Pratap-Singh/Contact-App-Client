@@ -8,9 +8,8 @@ import { BiUpload } from "react-icons/bi";
 import { Image, Spinner, Tooltip, useToast } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import axios from "axios";
 import { UniversalContext } from "../../App";
-import { BASEURL } from "../../config";
+import AxiosInstance from "../../helper/AxiosInstance";
 
 const SignUpForm = () => {
   // for handling the loading spinner
@@ -136,9 +135,9 @@ const SignUpForm = () => {
       }
 
       // creating the new user account
-      const res = await axios({
+      const res = await AxiosInstance({
         method: "post",
-        url: `${BASEURL}/signup`,
+        url: `/signup`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });

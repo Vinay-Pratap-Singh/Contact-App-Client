@@ -10,13 +10,12 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { BiUpload } from "react-icons/bi";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UniversalContext } from "../../App";
-import { BASEURL } from "../../config";
+import AxiosInstance from "../../helper/AxiosInstance";
 import Layout from "../../Layout/Layout";
 
 const UpdateContact = () => {
@@ -120,9 +119,9 @@ const UpdateContact = () => {
       }
 
       // creating the new user account
-      const res = await axios({
+      const res = await AxiosInstance({
         method: "patch",
-        url: `${BASEURL}/updatecontact`,
+        url: `/updatecontact`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });

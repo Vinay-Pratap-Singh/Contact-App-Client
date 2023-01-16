@@ -29,9 +29,8 @@ import { FaUser, FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { UniversalContext } from "../../App";
 import { ColorModeSwitcher } from "../../ColorModeSwitcher";
-import axios from "axios";
 import { BiUpload } from "react-icons/bi";
-import { BASEURL } from "../../config";
+import AxiosInstance from "../../helper/AxiosInstance";
 
 const AdminProfile = () => {
   // use context for auth context
@@ -170,7 +169,7 @@ const AdminProfile = () => {
 
     // changing the password if not a test account
     try {
-      const res = await axios.patch(`${BASEURL}/changepassword`, {
+      const res = await AxiosInstance.patch(`/changepassword`, {
         password: newPassword,
       });
 
@@ -250,9 +249,9 @@ const AdminProfile = () => {
       if (uploadedPhoto) {
         formData.append("photo", uploadedPhoto);
         // creating the new user account
-        const res = await axios({
+        const res = await AxiosInstance({
           method: "patch",
-          url: `${BASEURL}/changeuserimage`,
+          url: `/changeuserimage`,
           data: formData,
           headers: { "Content-Type": "multipart/form-data" },
         });
@@ -343,7 +342,7 @@ const AdminProfile = () => {
     });
 
     try {
-      const res = await axios.delete(`${BASEURL}/deleteuser`);
+      const res = await AxiosInstance.delete(`/deleteuser`);
 
       toast({
         title: "Account Deleted Successfully",
@@ -414,7 +413,7 @@ const AdminProfile = () => {
     });
 
     try {
-      const res = await axios.post(`${BASEURL}/removeprofile`, {
+      const res = await AxiosInstance.post(`/removeprofile`, {
         id: orgData._id,
       });
 

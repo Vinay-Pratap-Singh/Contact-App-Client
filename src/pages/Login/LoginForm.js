@@ -3,14 +3,13 @@ import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { Box, Heading, HStack, Text, VStack } from "@chakra-ui/layout";
 import { Spinner, useToast } from "@chakra-ui/react";
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { UniversalContext } from "../../App";
 import { ColorModeSwitcher } from "../../ColorModeSwitcher";
 import Layout from "../../Layout/Layout";
-import { BASEURL } from "../../config";
+import AxiosInstance from "../../helper/AxiosInstance";
 
 const LoginForm = () => {
   // using the toast to display the feedback responses
@@ -74,7 +73,7 @@ const LoginForm = () => {
 
     // axios post request for log in
     try {
-      const res = await axios.post(`${BASEURL}/login`, {
+      const res = await AxiosInstance.post(`/login`, {
         email: data.email,
         password: data.password,
       },{withCredentials:true});

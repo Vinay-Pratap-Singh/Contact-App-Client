@@ -10,14 +10,13 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { BiUpload } from "react-icons/bi";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { UniversalContext } from "../../App";
 import Layout from "../../Layout/Layout";
-import { BASEURL } from "../../config";
+import AxiosInstance from "../../helper/AxiosInstance";
 
 const NewContact = () => {
   // getting login state from context
@@ -115,9 +114,9 @@ const NewContact = () => {
       }
 
       // creating the new user account
-      const res = await axios({
+      const res = await AxiosInstance({
         method: "post",
-        url: `${BASEURL}/addcontact`,
+        url: `/addcontact`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });

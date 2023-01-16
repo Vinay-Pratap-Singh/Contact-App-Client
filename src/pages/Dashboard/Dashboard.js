@@ -12,12 +12,11 @@ import {
 } from "@chakra-ui/react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import ContactCard from "../../components/ContactCard/ContactCard";
-import { Link, useFetcher, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { UniversalContext } from "../../App";
-import axios from "axios";
 import AddContact from "../../components/AddContact/AddContact";
-import { BASEURL } from "../../config";
+import AxiosInstance from "../../helper/AxiosInstance";
 
 const Dashboard = () => {
   // for handling the loading spinner
@@ -46,7 +45,7 @@ const Dashboard = () => {
     setLoading(true);
 
     try {
-      await axios.get(`${BASEURL}/logout`);
+      await AxiosInstance.get(`/logout`);
       toast({
         title: "Logout Successful",
         position: "top",
@@ -102,9 +101,7 @@ const Dashboard = () => {
       }
 
       try {
-        const res = await axios.get(`${BASEURL}/dashboard`, {
-          withCredentials: true,
-        });
+        const res = await AxiosInstance.get(`/dashboard`);
         // if success is false
         if (!res.data.success) {
           navigator("/login");
