@@ -16,10 +16,10 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import axios from "axios";
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { UniversalContext } from "../../App";
+import AxiosInstance from "../../helper/AxiosInstance";
 
 const ContactCard = (props) => {
   let { name, phone, photo, bgColor, id } = props;
@@ -84,8 +84,7 @@ const ContactCard = (props) => {
     // displaying the loader
     setLoading(true);
     try {
-      const res = await axios.post("/deletecontact", { deleteId: id });
-
+      const res = await AxiosInstance.post("/deletecontact", { deleteId: id });
       toast({
         title: res.data.message,
         position: "top",
