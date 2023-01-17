@@ -73,14 +73,19 @@ const LoginForm = () => {
 
     // axios post request for log in
     try {
-      const res = await AxiosInstance.post(`/login`, {
-        email: data.email,
-        password: data.password,
-      },{withCredentials:true});
+      const res = await AxiosInstance.post(
+        `/login`,
+        {
+          email: data.email,
+          password: data.password,
+        },
+        { withCredentials: true }
+      );
 
       // setting the auth to true
       setIsLoggedin(true);
       localStorage.setItem("isLoggedin", true);
+      localStorage.setItem("token", res.data.token);
 
       toast({
         title: res.data.message,
