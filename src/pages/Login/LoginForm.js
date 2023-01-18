@@ -79,7 +79,6 @@ const LoginForm = () => {
           email: data.email,
           password: data.password,
         },
-        { withCredentials: true }
       );
 
       // setting the auth to true
