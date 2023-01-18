@@ -46,6 +46,7 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/newcontact" element={<NewContact />} />
         <Route path="/updatecontact" element={<UpdateContact />} />        
+        <Route path="*" element={<Login />} />
       </Routes>
     </UniversalContext.Provider>
   );
