@@ -55,7 +55,7 @@ const Dashboard = () => {
 
       // changing the login state of user
       setIsLoggedin(false);
-      localStorage.clear()
+      localStorage.clear();
 
       // hiding the loader
       setLoading(false);
@@ -111,17 +111,8 @@ const Dashboard = () => {
         setContact(res.data.data.contact);
         localStorage.setItem("orgData", JSON.stringify(res.data.data));
       } catch (error) {
-        toast({
-          title: "Failed to load contact",
-          description: "Refresh page or login again after logout",
-          position: "top",
-          status: "error",
-          duration: 3000,
-        });
-
         setIsLoggedin(false);
-        localStorage.removeItem(isLoggedin);
-        localStorage.removeItem(orgData);
+        localStorage.clear();
       }
     };
     fetchData();

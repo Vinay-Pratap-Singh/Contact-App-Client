@@ -132,7 +132,7 @@ const ContactCard = (props) => {
           bgColor={bgColor}
         >
           {photo ? (
-            <Image borderRadius="50%" src={photo} />
+            <Image w={14} h={14} borderRadius="50%" src={photo} />
           ) : (
             <Text fontSize="25px" fontWeight="500" color="white">
               {letter}
