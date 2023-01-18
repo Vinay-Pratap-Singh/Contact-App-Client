@@ -10,6 +10,8 @@ import { UniversalContext } from "../../App";
 import { ColorModeSwitcher } from "../../ColorModeSwitcher";
 import Layout from "../../Layout/Layout";
 import AxiosInstance from "../../helper/AxiosInstance";
+import axios from "axios";
+import { BASEURL } from "../../config";
 
 const LoginForm = () => {
   // using the toast to display the feedback responses
@@ -73,8 +75,8 @@ const LoginForm = () => {
 
     // axios post request for log in
     try {
-      const res = await AxiosInstance.post(
-        `/login`,
+      const res = await axios.post(
+        `${BASEURL}/login`,
         {
           email: data.email,
           password: data.password,
